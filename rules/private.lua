@@ -1,16 +1,13 @@
 local Net=require"fw.Net"
 local Host=require"fw.Host"
-print("Object Net:",Net)
+local service=require"fw.Service"
+local ssh=Service:Get("ssh")
 Net:new("Private")
 function Private:rules()
 	self:allow("test")
 end
--- Private:rules()
 Host:new{"Shell3",ip="192.168.0.44/32",net=Private}
 function Shell3:rules()
-	self:allow("blap")
+	self:allow(ssh)
 end
-print("Print an object",Shell3,Shell3:__tostring())
-print(fw.Host:ClassName())
--- fw.Host:New("Shell3")
 

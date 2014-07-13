@@ -1,6 +1,8 @@
-local fw=require"fw"
-local M={}
-fw.Object=M
+local M={
+	_name="Object",
+	subclasses={},
+	objects={}
+}
 --[[
 fw.MetaObject={}
 function fw.MetaObject:UnknownMethod(k,...)
@@ -13,10 +15,18 @@ function M.MetaObject.__index(self,k)
 end
 -- setmetatable(M.Object,M.MetaObject)
 -- ]]
-M={_name="Object"}
-M.meta={ __index=M.Object }
-M.subclasses={}
-M.objects={}
+
+--[[
+  Since we don't have an Object yet, we have to create the structure by hand
+]]
+function M:__tostring()
+	if self.class==nil then
+		return "Class "..self:ClassName()
+	else
+		return  "Object "..self.class .."(".. self._name..")"
+	end
+end
+M.meta={ __index=M, __tostring=M.__tostring }
 function M:New(name)
 	local o={_name=name,super=self }
 	o.meta={ __index=o,__tostring=self.__tostring }	
@@ -24,7 +34,7 @@ function M:New(name)
 	o.objects={}
 	setmetatable(o,self.meta)
 	self.subclasses[name]=o
-	fw[name]=o
+	--fw[name]=o
 	print("Created class:",name)
 	return o
 end
@@ -35,7 +45,7 @@ function M:new(name)
 	local o={_name=name,class=self._name}
 	setmetatable(o,self.meta)
 	self.objects[name]=o
-	_G[name]=o
+	--_G[name]=o
 	print("Created object:",name)
 	return o
 end
@@ -53,17 +63,27 @@ function M:RunPhase(N,...)
 end
 function M:setup(...)
 end
+function M:Get(name)
+	if self.objects[name]==nil then
+		for _,aClass in pairs(self.subclasses) do
+			local o=aClass:Get(name)
+			if o ~= nil then
+				return o
+			end
+		end
+		return nil
+	else
+		return self.objects[name]
+	end
+end
 function M:ClassName()
 	if self.super ~= nil then
-		print("ask super",self.super._name)
+		-- print("ask super",self.super._name)
 		return self.super:ClassName() .. ":"..self._name
 	else
 		return self._name
 	end
 end
-function M:__tostring()
-	local t="object"
-	if self.class==nil then t="class" end
-	return  t .. " ".. self._name
-end
+local fw=require"fw"
+--fw.Object=M
 return M
