@@ -1,7 +1,8 @@
+--[[
+  Since we don't have an Object yet, we have to create the "structure" by hand
+]]
 local M={
-	_name="Object",
-	subclasses={},
-	objects={}
+	_mo={ name = "Object" }
 }
 --[[
 fw.MetaObject={}
@@ -15,75 +16,118 @@ function M.MetaObject.__index(self,k)
 end
 -- setmetatable(M.Object,M.MetaObject)
 -- ]]
+local _M={ }
 
---[[
-  Since we don't have an Object yet, we have to create the structure by hand
-]]
-function M:__tostring()
-	if self.class==nil then
-		return "Class "..self:ClassName()
-	else
-		return  "Object "..self.class .."(".. self._name..")"
+function M:_meta()
+	self._mo.meta= self._mo.meta or { __index=self, __tostring=self.__tostring }
+	return self._mo.meta
+end
+
+function M:_add(t,object)
+	if object:Name() then
+		self._mo[t]=self._mo[t] or {}
+--		print("o",object:Name(),getmetatable(object))
+		self._mo[t][object:Name()]=object
 	end
 end
-M.meta={ __index=M, __tostring=M.__tostring }
+function M:_get(t)
+	return self._mo[t]
+end
+
+function M:__tostring()
+	if self._mo.class==nil then
+		return "Class "..self:ClassName()
+	else
+		return  "Object "..self._mo.class:ClassName() .."(".. self._mo.name..")"
+	end
+end
+function M:_new(p)
+	local o={_mo={}}
+	if p ~= nil then
+		local name
+		if type(p)== "string" then
+			name=p
+		else
+			name=p[1]
+			for k,v in pairs(p) do
+				if k ~= 1  then
+					o[k]=v
+				end
+			end
+		end
+		o._mo.name=name
+	end
+	setmetatable(o,self:_meta())
+	return o
+end
 function M:New(name)
-	local o={_name=name,super=self }
-	o.meta={ __index=o,__tostring=self.__tostring }	
-	o.subclasses={}
-	o.objects={}
-	setmetatable(o,self.meta)
-	self.subclasses[name]=o
-	--fw[name]=o
-	print("Created class:",name)
+	local o=self:_new(name)
+	o._mo.super=self
+	self:_add("subclasses",o)
+	print("Created:",o)
 	return o
 end
 function M:UnknownMethod(k)
 	print("unknown method:",k,"for",self.name)
 end
 function M:new(name)
-	local o={_name=name,class=self._name}
-	setmetatable(o,self.meta)
-	self.objects[name]=o
-	--_G[name]=o
-	print("Created object:",name)
+	local o=self:_new(name)
+	o._mo.class=self
+	self:_add("objects",o)
+	print("Created:",o)
 	return o
 end
--- Broadcast phase runs to all subclasses
+-- Broadcast phase runs to all subclasses and objects
 -- phases must exist as method
 function M:RunPhase(N,...)
-	for _,aClass in pairs(self.subclasses) do
-		print("phase: ",N," class: ",_)
-		aClass:RunPhase(N,...)
+	local subclasses=self:_get("subclasses")
+	if subclasses ~= nil then
+		for _,aClass in pairs(subclasses) do
+			io.write("phase: ",N," class: ",aClass:ClassName(),"\n")
+			aClass:RunPhase(N,...)
+		end
 	end
-	for _,anObject in pairs(self.objects) do
-		print("phase object: ",_)
-		anObject[N](anObject,...)
+	local objects=self:_get("objects")
+	if objects ~= nil then
+		for _,anObject in pairs(objects) do
+			print("phase object: ",_)
+			anObject:RunPhase(N,...)
+		end
 	end
-end
-function M:setup(...)
+	if self[N] ~= nil then
+		self[N](self,...)
+	end
 end
 function M:Get(name)
-	if self.objects[name]==nil then
-		for _,aClass in pairs(self.subclasses) do
-			local o=aClass:Get(name)
-			if o ~= nil then
-				return o
+	local objects=self:_get("objects")
+	if objects ~= nil then
+		if objects[name]==nil then
+			local subclasses=self:_get("subclasses")
+			if subclasses ~= nil then
+				for _,aClass in pairs(subclasses) do
+					local o=aClass:Get(name)
+					if o ~= nil then
+						return o
+					end
+				end
 			end
+		else
+			return objects[name]
 		end
-		return nil
-	else
-		return self.objects[name]
 	end
+	return nil
+end
+function M:Name()
+	return self._mo.name
 end
 function M:ClassName()
-	if self.super ~= nil then
+	if self._mo.super ~= nil then
 		-- print("ask super",self.super._name)
-		return self.super:ClassName() .. ":"..self._name
+		return self._mo.super:ClassName() .. ":"..self._mo.name
 	else
-		return self._name
+		return self._mo.name
 	end
 end
-local fw=require"fw"
+--local fw=require"fw"
 --fw.Object=M
 return M
