@@ -10,7 +10,6 @@ function M:add(t,c,p,r)
 	n[#n+1]=r
 end
 
-function M.printrule(r,e)
 function M:printrule(r,e)
 	local e=e or {}
 	for _,n in pairs(r) do
@@ -29,16 +28,21 @@ function M:printrule(r,e)
 end
 function M:printchain(t,c)
 	local o={}
-	for n in pairs(self._tables[t][c]) do o[#o+1]=n end	
+ 	for n in pairs(self._tables[t][c]) do o[#o+1]=n end	
 	table.sort(o)
 	for _,n in ipairs(o) do
-		self:printrule(self._tables[t][c][n])
+     for prio,aRule in ipairs(self._tables[t][c][n]) do
+       local lines=self:printrule(aRule)
+       print(t,c,table.unpack(lines))
+     end
 	end
 end
 function M:printall()
 	for t in pairs(self._tables) do
 		for c in pairs(self._tables[t]) do
-			self.printchain(t,c)
+			self:printchain(t,c)
 		end
 	end	
 end
+
+return M

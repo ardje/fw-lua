@@ -123,7 +123,7 @@ end
 function M:ClassName()
 	if self._mo.super ~= nil then
 		-- print("ask super",self.super._name)
-		return self._mo.super:ClassName() .. ":"..self._mo.name
+		return self._mo.super:ClassName() .. ":"..(self._mo.name or "anonymous")
 	else
 		return self._mo.name
 	end

@@ -7,7 +7,7 @@ local private=Net:new("Private")
 function private:rules()
 	self:allow{"test"}
 end
-local shell3=Host:new{"Shell3",ip="192.168.0.44/32",net=private}
+local shell3=Host:new{"Shell3",ip={"192.168.0.44/32","192.168.0.55/32"},net=private}
 function shell3:rules()
 	self:allow{ssh}
 end
