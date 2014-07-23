@@ -1,0 +1,55 @@
+Expanding a firewall rule might seem obvious, but it is not.
+Lua allows for a natural way of using tables.
+As this is a rewrite of an OO bash script, one of the first things I of course
+want to do is use tables as is for parameters.
+So all parameters passed are tables.
+
+What also is a natural thing to do is use tables as rule exploders.
+In the bash version trickery was done to get arrays of parameters, and an
+expensive expander was used to explode the rule set.
+Rewriting the exploder in a lua parser made it at least 1000 times faster.
+
+But now we have two things that come naturally but are opposites of what we
+want to achieve.
+
+What do we want to achieve:
+a ruleset:
+a ruleset is an array that contains of iptables commands that append rules to a
+single existing chain.
+an iptables command is an array that consist solely of strings, making up the
+command.
+
+the firewall set:
+- filter rulesets 
+- mangle rulesets
+- nat rulesets
+
+Rules are described by a lua script.
+The common way is to create a net object with interfaces and ip addresses.
+The net object will have a method rules overridden to get a netspecific ruleset.
+The rules will be run at the rules phase.
+
+Phases: init,resolve,rulesstart,rules,rulesend
+
+expand:
+we have seen a table can be used 2 mutual ways: exploding and flattening.
+We already have established that a rule is a table consisting solely of strings.
+We will expand a little on that: a means to indicate exploding and flattening
+is to have a key in the table indiciting "flatten" or "explode".
+This way we can have:
+{ flatten = 1, { flatten = 1, "iptables", "--table" , "filter","--append",chainname } , { flatten = 1, "--proto",{ explode = 1 ,"tcp","udp" },"--destination-port",{ explode = 1,"8080","8081" } },{ flatten=1,"--jump","ACCEPT" } }
+
+We see 2 layers of tables containing flatten. As a matter of fact: this is what
+probably will happen, when running a single rule:
+self:allow{someweirdapp:asDestination()} , the allow is causing the jump, self:
+will probably append the filter and chainname.
+
+Since this is pretty common, we can just skip to levels of flatten, and a level
+of explode, defining it as defaults for that level.
+
+
+
+exploding:
+1) recurse explode to return at most a 2 dimensional table for explosion
+2) explode table: multiple current items by length of exploder table
+append each table to the amount of existing item lines.
