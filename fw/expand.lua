@@ -1,7 +1,5 @@
 local M={}
 local dh=require"dumphash"
-
---local dh={ dumphash=function() end }
 local function explode(l,r)
 	local nl=#l
 	local nr=#r
@@ -33,7 +31,7 @@ local function explode(l,r)
 end
 local function expand(r,depth)
 	if getmetatable(r) ~= nil then
-		print("got metatable, evaluating")
+		--print("got metatable, evaluating")
 		return expand(r:asDefault(),depth+1)
 	end
 	depth=depth or 1
@@ -47,13 +45,15 @@ local function expand(r,depth)
 ]]
 	if r.f~=nil then
 		items={{}}
-		print "flattening"
+		--print "flattening"
 		for k,v in ipairs(r) do
 			if type(v) == "table" then
 				local rr=expand(v,depth+1)
+				--[[
 				print("now depth:",depth)
 				print("explode items") dh.dumphash(items)
 				print("with rr") dh.dumphash(rr)
+				-- ]]
 				explode(items,rr)
 			else
 				for ik,iv in ipairs(items) do
@@ -63,11 +63,11 @@ local function expand(r,depth)
 		end
 	else
 		items={}
-		print "exploding"
+		-- print "exploding"
 		for k,v in ipairs(r) do
 			if type(v) == "table" then
 				local rr=expand(v,depth+1)
-				print("now depth:",depth)
+				-- print("now depth:",depth)
 				for k,v in ipairs(rr) do
 					items[#items+1]=v
 				end
@@ -76,9 +76,11 @@ local function expand(r,depth)
 				items[#items+1]={v}
 			end
 		end
+		--[[
 		print("exploded items:")
 		dh.dumphash(items)
 		print("---------------")
+		-- ]]
 	end
 	return items
 end

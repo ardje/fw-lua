@@ -1,7 +1,7 @@
 local Net=require"fw.Net"
 local Host=require"fw.Host"
-local Service=require"fw.Service"
-local ssh=Service:Get("ssh")
+local Proto=require"fw.Proto"
+local ssh=Proto:Get("ssh")
 
 local private=Net:new("Private")
 function private:rules()
