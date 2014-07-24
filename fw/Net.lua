@@ -8,6 +8,6 @@ function M:addRule(r)
 	IT:add(table,chain,prio,r)
 end
 function M:allow(r)
-	self:addRule{r,{ "--jump","ACCEPT"}}
+	self:addRule{f=1,r,{f=1, "--jump","ACCEPT"}}
 end
 return M

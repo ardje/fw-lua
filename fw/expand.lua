@@ -1,5 +1,8 @@
+local M={}
 local dh=require"dumphash"
-function explode(l,r)
+
+--local dh={ dumphash=function() end }
+local function explode(l,r)
 	local nl=#l
 	local nr=#r
 	if nl == 0 then
@@ -28,20 +31,26 @@ function explode(l,r)
 	end
 	return l
 end
-function expand(r,items,depth)
-	items=items or {}
+local function expand(r,depth)
+	if getmetatable(r) ~= nil then
+		print("got metatable, evaluating")
+		return expand(r:asDefault(),depth+1)
+	end
 	depth=depth or 1
+	local items
+--[[
 	print("depth:",depth)
 	print("r")
 	dh.dumphash(r)
 	print("items")
 	dh.dumphash(items)
-	if r.explode==nil then
+]]
+	if r.f~=nil then
 		items={{}}
 		print "flattening"
 		for k,v in ipairs(r) do
 			if type(v) == "table" then
-				local rr=expand(v,{},depth+1)
+				local rr=expand(v,depth+1)
 				print("now depth:",depth)
 				print("explode items") dh.dumphash(items)
 				print("with rr") dh.dumphash(rr)
@@ -57,7 +66,7 @@ function expand(r,items,depth)
 		print "exploding"
 		for k,v in ipairs(r) do
 			if type(v) == "table" then
-				local rr=expand(v,{},depth+1)
+				local rr=expand(v,depth+1)
 				print("now depth:",depth)
 				for k,v in ipairs(rr) do
 					items[#items+1]=v
@@ -73,12 +82,17 @@ function expand(r,items,depth)
 	end
 	return items
 end
-function dt(t)
+local function dt(t)
 	print("table rule dump")
 	for _,v in pairs(t) do
 		print(table.unpack(v))
 	end
 end
+M.dt=dt
+M.expand=expand
+M.explode=explode
+return M
+--[=[
 -- [[
 l=expand{ flatten = 1, { flatten = 1, "iptables", "--table" , "filter","--append",chainname } , { flatten = 1, "--proto",{ explode = 1 ,"tcp","udp" },"--destination-port",{ explode = 1,"8080","8081", { "zomaar" ,"wat" } } },{ flatten=1,"--jump","ACCEPT" } }
 print("result")
@@ -120,3 +134,4 @@ for i = 1,10000 do
 expand(nil,nil,"doiptables","--source","(A^B)","([0]=123.123.123.123/24^[1]=32.32.32.32/24)","poep")
 end
 -- ]]
+-- ]=]

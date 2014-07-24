@@ -10,7 +10,7 @@ function M.dumphash(arg,prefix,visited)
 		if  type(v) == "table" and visited[v]==nil
 		then
 			visited[v]=1
-			print(prefix .. k, v)
+			print(prefix .. k, v, getmetatable(v))
 			M.dumphash(v,prefix .. k .. ".",visited)
 		else
 			print(prefix .. k, v)

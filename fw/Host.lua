@@ -9,9 +9,13 @@ local M=Object:New("Host")
 	--return o
 --end
 function M:allow(...)
-	self.net:allow(self:asDestination(),...)
+	self.net:allow{f=1,self:asDestination(),...}
+end
+function M:asSource()
+	return {f=1,"--source",self.ip}
 end
 function M:asDestination()
-	return {"--destination",self.ip}
+	return {f=1,"--destination",self.ip}
 end
+M.asDefault=M.asSource
 return M
