@@ -4,6 +4,8 @@
 local M={
 	_mo={ name = "Object" }
 }
+local log=require"fw.log"
+local print=log.print
 --[[
 fw.MetaObject={}
 function fw.MetaObject:UnknownMethod(k,...)
@@ -100,22 +102,20 @@ function M:RunPhase(N,...)
 end
 function M:Get(name)
 	local objects=self:_get("objects")
-	if objects ~= nil then
-		if objects[name]==nil then
-			local subclasses=self:_get("subclasses")
-			if subclasses ~= nil then
-				for _,aClass in pairs(subclasses) do
-					local o=aClass:Get(name)
-					if o ~= nil then
-						return o
-					end
+	if objects ~= nil and objects[name]~=nil then
+		return objects[name]
+	else
+		local subclasses=self:_get("subclasses")
+		if subclasses ~= nil then
+			for _,aClass in pairs(subclasses) do
+				local o=aClass:Get(name)
+				if o ~= nil then
+					return o
 				end
 			end
-		else
-			return objects[name]
 		end
+		return nil
 	end
-	return nil
 end
 function M:Name()
 	return self._mo.name

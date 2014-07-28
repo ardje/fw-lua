@@ -84,10 +84,13 @@ local function expand(r,depth)
 	end
 	return items
 end
-local function dt(t)
-	print("table rule dump")
+local function dt(t,prefix)
+	--print("table rule dump")
+	local p=table.concat((prefix or {})," ")
 	for _,v in pairs(t) do
-		print(table.unpack(v))
+		local r=table.concat(v," ")
+		io.write(p,"\t",r,"\n")
+		--print(table.unpack(prefix or {}),table.unpack(v))
 	end
 end
 M.dt=dt

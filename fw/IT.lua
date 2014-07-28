@@ -17,9 +17,10 @@ function M:printchain(t,c)
  	for n in pairs(self._tables[t][c]) do o[#o+1]=n end	
 	table.sort(o)
 	for _,n in ipairs(o) do
+		io.write("Dumping lines for ",t," ",c,"\n")
 		for prio,aRule in ipairs(self._tables[t][c][n]) do
 			local lines=e.expand(aRule)
-			e.dt(lines)
+			e.dt(lines,{"iptables","--table","t","--append",c})
 		end
 	end
 end
