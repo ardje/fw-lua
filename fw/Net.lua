@@ -7,7 +7,13 @@ function M:addRule(r)
 	local table=r.table or "filter"
 	IT:add(table,chain,prio,r)
 end
+function M:iptables(table,chain,prio,r)
+	local prio=prio or 50
+	local chain=chain or self:Name()
+	local table=table or "filter"
+	IT:add(table,chain,prio,r)
+end
 function M:allow(r)
-	self:addRule{f=1,r,{f=1, "--jump","ACCEPT"}}
+	self:iptables(nil,nil,r.prio,{f=1,r, "--jump","ACCEPT"})
 end
 return M

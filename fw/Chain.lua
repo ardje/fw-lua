@@ -7,7 +7,7 @@ function M:New(p)
 	self.chain=o.chain
 end
 function M:allow(...)
-	print(...)
+	print("Chain allow:",...)
 	--self:addRule(...)
 end
 return M

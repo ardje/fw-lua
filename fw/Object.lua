@@ -1,10 +1,11 @@
+local log=require"fw.log"
+local ordered=require"fw.ordered"
 --[[
   Since we don't have an Object yet, we have to create the "structure" by hand
 ]]
 local M={
 	_mo={ name = "Object" }
 }
-local log=require"fw.log"
 local print=log.print
 --[[
 fw.MetaObject={}
@@ -84,14 +85,14 @@ end
 function M:RunPhase(N,...)
 	local subclasses=self:_get("subclasses")
 	if subclasses ~= nil then
-		for _,aClass in pairs(subclasses) do
-			io.write("phase: ",N," class: ",aClass:ClassName(),"\n")
+		for _,aClass in ordered.pairs(subclasses) do
+			print("phase: ",N," class: ",aClass:ClassName(),"\n")
 			aClass:RunPhase(N,...)
 		end
 	end
 	local objects=self:_get("objects")
 	if objects ~= nil then
-		for _,anObject in pairs(objects) do
+		for _,anObject in ordered.pairs(objects) do
 			print("phase object: ",_)
 			anObject:RunPhase(N,...)
 		end

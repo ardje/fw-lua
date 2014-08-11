@@ -1,19 +1,18 @@
 -- local Net=require"fw.Net"
 -- local Host=require"fw.Host"
 -- local fw=require"fw"
+local log=require"fw.log"
 local rules=require "fw.rules"
+local ordered=require"fw.ordered"
 local basedir="rules"
 local rulelist=rules:list(basedir)
-for k,v in pairs(rulelist) do
-	print("ruling:",k)
+for k,v in ordered.pairs(rulelist) do
+	log.print("ruling:",k)
 	dofile(basedir .. "/" .. k)
 end
 local Object=require"fw.Object"
-Object:RunPhase("rules")
 Object:RunPhase("setup")
+Object:RunPhase("rules")
 
-io.write("qqq\n")
-print(Object:Get("Private"))
-io.write("efkef\n")
 local IT=require"fw.IT"
 IT:printall()

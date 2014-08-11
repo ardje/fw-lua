@@ -1,0 +1,9 @@
+local Net=require"fw.Net"
+local Host=require"fw.Host"
+local Proto=require"fw.Proto"
+local proto=require"fw.protocols"
+
+local FORWARD=Net:new("FORWARD")
+
+function FORWARD:rules()
+end
