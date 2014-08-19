@@ -1,6 +1,8 @@
 -- local Net=require"fw.Net"
 -- local Host=require"fw.Host"
 -- local fw=require"fw"
+package.cpath="/usr/local/lib/lua/5.2/?.so;/usr/lib/x86_64-linux-gnu/lua/5.2/?.so;/usr/lib/lua/5.2/?.so;/usr/local/lib/lua/5.2/loadall.so;./?.so;" .. package.cpath
+package.path="/usr/local/share/lua/5.2/?.lua;/usr/local/share/lua/5.2/?/init.lua;/usr/local/lib/lua/5.2/?.lua;/usr/local/lib/lua/5.2/?/init.lua;/usr/share/lua/5.2/?.lua;/usr/share/lua/5.2/?/init.lua;./?.lua;"..package.path
 local log=require"fw.log"
 local rules=require "fw.rules"
 local ordered=require"fw.ordered"
