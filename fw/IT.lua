@@ -19,11 +19,13 @@ function M:add(t,c,p,r)
 end
 
 function M:printchain(t,c)
+	--local chainobject=Object:Get(c)
 	for prio,rules in ordered.pairs(self._tables[t][c]) do
-		io.write("Dumping lines for ",t," ",c,"\n")
+		--io.write("Dumping lines for ",t," ",c,"\n")
+		--chainobject:iptables_start(t)
 		for _,aRule in ipairs(rules) do
 			local lines=e.expand(aRule)
-			e.dt(lines,{"iptables","--table","t","--append",c})
+			e.dt(lines,{"iptables","--table",t,"--append",c})
 		end
 	end
 end
