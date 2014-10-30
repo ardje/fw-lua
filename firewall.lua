@@ -17,6 +17,7 @@ end
 local Object=require"fw.Object"
 Object:RunPhase("setup")
 Object:RunPhase("rules")
+Object:RunPhase("rules_end")
 
 local IT=require"fw.IT"
 IT:printall()

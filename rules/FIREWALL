@@ -1,0 +1,31 @@
+local Net=require"fw.Net"
+local Host=require"fw.Host"
+local Proto=require"fw.Proto"
+local proto=require"fw.protocols"
+
+local FORWARD=Net:new("FORWARD")
+
+function FORWARD:rules()
+end
+
+local PREROUTING=Net:new("PREROUTING")
+function PREROUTING:rules()
+end
+function PREROUTING:rules_end()
+end
+local INPUT=Net:new("INPUT")
+function INPUT:rules()
+end
+function INPUT:rules_end()
+end
+local OUTPUT=Net:new("OUTPUT")
+function OUTPUT:rules()
+end
+function OUTPUT:rules_end()
+end
+local POSTROUTING=Net:new("POSTROUTING")
+function POSTROUTING:rules()
+end
+function POSTROUTING:rules_end()
+end
+

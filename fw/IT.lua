@@ -18,6 +18,16 @@ function M:add(t,c,p,r)
 	n[#n+1]=r
 end
 
+function M:createchain(t,c)
+	local chainobject=Object:Get(c)
+	io.write("iptables --table ",t," --new-chain ",chainobject:Name(),"\n")
+end
+
+function M:flushchain(t,c)
+	local chainobject=Object:Get(c)
+	io.write("iptables --table ",t," --flush ",chainobject:Name(),"\n")
+end
+
 function M:printchain(t,c)
 	--local chainobject=Object:Get(c)
 	for prio,rules in ordered.pairs(self._tables[t][c]) do
@@ -31,6 +41,12 @@ function M:printchain(t,c)
 end
 function M:printall()
 	for t in ordered.pairs(self._tables) do
+		for c in ordered.pairs(self._tables[t]) do
+			self:createchain(t,c)
+		end
+		for c in ordered.pairs(self._tables[t]) do
+			self:flushchain(t,c)
+		end
 		for c in ordered.pairs(self._tables[t]) do
 			self:printchain(t,c)
 		end
