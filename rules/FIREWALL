@@ -8,6 +8,7 @@ local FORWARD=Chain:new("FORWARD")
 local function empty()
 end
 
+FORWARD.createchain=empty
 FORWARD.rules=empty
 
 local PREROUTING=Chain:new("PREROUTING")
@@ -25,6 +26,7 @@ function OUTPUT:rules()
 end
 OUTPUT.rules_end=empty
 local POSTROUTING=Chain:new("POSTROUTING")
+POSTROUTING.createchain=empty
 POSTROUTING.rules=empty
 POSTROUTING.rules_end=empty
 

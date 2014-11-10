@@ -42,8 +42,9 @@ function M:snat(r)
 	end
 end
 function M:rules_end()
-	if self:Name() ~= "Chain" then
-		self:iptables(nil,nil,80,{f=1,"--jump","DROP"})
+	local objects=self:_get("objects")
+	if objects == nil then
+		self:addRule{f=1,prio=80,"--jump","DROP"}
 	end
 end
 
