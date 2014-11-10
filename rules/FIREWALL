@@ -1,34 +1,30 @@
 local Net=require"fw.Net"
+local Chain=require"fw.Chain"
 local Host=require"fw.Host"
 local Proto=require"fw.Proto"
 local proto=require"fw.protocols"
 
-local FORWARD=Net:new("FORWARD")
-
-function FORWARD:rules()
-	self:allow{ f=1,"--in-interface","lo"}
+local FORWARD=Chain:new("FORWARD")
+local function empty()
 end
 
-local PREROUTING=Net:new("PREROUTING")
-function PREROUTING:rules()
-end
-function PREROUTING:rules_end()
-end
-local INPUT=Net:new("INPUT")
+FORWARD.rules=empty
+
+local PREROUTING=Chain:new("PREROUTING")
+PREROUTING.rules=empty
+PREROUTING.rules_end=empty
+PREROUTING.createchain=empty
+local INPUT=Chain:new("INPUT")
 function INPUT:rules()
 	self:allow{ f=1,"--in-interface","lo"}
 end
-function INPUT:rules_end()
-end
-local OUTPUT=Net:new("OUTPUT")
+INPUT.rules_end=empty
+local OUTPUT=Chain:new("OUTPUT")
 function OUTPUT:rules()
 	self:allow{ f=1,"--in-interface","lo"}
 end
-function OUTPUT:rules_end()
-end
-local POSTROUTING=Net:new("POSTROUTING")
-function POSTROUTING:rules()
-end
-function POSTROUTING:rules_end()
-end
+OUTPUT.rules_end=empty
+local POSTROUTING=Chain:new("POSTROUTING")
+POSTROUTING.rules=empty
+POSTROUTING.rules_end=empty
 
