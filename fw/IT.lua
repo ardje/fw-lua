@@ -20,7 +20,11 @@ end
 
 function M:createchain(t,c)
 	local chainobject=Object:Get(c)
-	io.write("iptables --table ",t," --new-chain ",chainobject:Name(),"\n")
+	if chainobject ~= nil then
+		chainobject:createchain(t)
+	else
+		io.stderr:write("Skipping createchain"..c.."\n")
+	end
 end
 
 function M:flushchain(t,c)
