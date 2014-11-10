@@ -16,6 +16,9 @@ end
 function M:allow(r)
 	self:iptables(nil,nil,r.prio,{f=1,r, "--jump","ACCEPT"})
 end
+function M:drop(r)
+	self:iptables(nil,nil,r.prio,{f=1,r, "--jump","DROP"})
+end
 function M:interface(interface)
 	if self._interface ~= nil then
 		if type(self._interface) == "string" then
@@ -44,6 +47,34 @@ function M:dnat(r)
 		self:iptables("nat",nil,50,{f=1,from:asDestination(),service:asDestination(),"--jump","DNAT","--to",rto})
 	else
 		self:iptables("nat",nil,50,{f=1,from:asDestination(),"--jump","DNAT","--to",rto})
+	end
+end
+function M:asDestination()
+	return { f=1,"--out-interface",self._interface }
+
+end
+function M:asSource()
+	return { f=1,"--in-interface",self._interface }
+
+end
+function M:asAddress()
+	return self.ip
+end
+function M:asSourceIP()
+	return { f=1,"--source",self:asAddress() }
+end
+function M:asDestinationIP()
+	return { f=1,"--destination",self:asAddress() }
+end
+function M:snat(r)
+	local rules=r[1] or r.match
+	local to=r[2] or r.to
+	local service=r[3] or r.service
+	local rto=to:asAddress()
+	if service ~= nil then
+		self:iptables("nat",nil,50,{f=1,rules,"--jump","SNAT","--to",rto})
+	else
+		self:iptables("nat",nil,50,{f=1,rules,"--jump","SNAT","--to",rto})
 	end
 end
 return M

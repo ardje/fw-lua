@@ -3,46 +3,44 @@ local Host=require"fw.Host"
 local Proto=require"fw.Proto"
 local proto=require"fw.protocols"
 
-local publicip=Host:new{"Publicip",ip={"84.245.27.153/32"}}
-local private=Net:new("Private")
+local private=Net:new{"Private",ip={"192.168.0.2/24"}}
 private:interface("fw-vlan1")
+
 function private:rules()
+	local internet=Object:Get("Internet")
+	internet:SNatMe(self)
+end
+
+local function PublicService(self, ...)
+	local publicip=Object:Get("PublicIP")
+	for _,aservice in ipairs{...} do
+		self:allow{aservice}
+		publicip:dnatTo{self,aservice}
+	end
 end
 
 local shell3=Host:new{"Shell3",ip={"192.168.0.44/32"},net=private}
 function shell3:rules()
-	self:allow{proto.ssh}
-	publicip:dnatTo{self,proto.ssh}
+	PublicService(self,proto.ssh)
 end
 
 local rtprange=Proto:New{"ast2rtprange",proto="udp",port="10000:20000"}
 local ast2=Host:new{"Ast2",ip={"192.168.0.11/32"},net=private}
 function ast2:rules()
-	self:allow{proto.sip}
-	self:allow{proto.iax2}
-	self:allow{proto.dundi}
-	self:allow{rtprange}
-	publicip:dnatTo{self,proto.sip}
-	publicip:dnatTo{self,proto.iax2}
-	publicip:dnatTo{self,proto.dundi}
-	publicip:dnatTo{self,rtprange}
+	PublicService(self,proto.sip,proto.iax2,proto.dundi,rtprange)
 end
 
 local mail1=Host:new{"Mail1",ip={"192.168.0.250/32"},net=private}
 function mail1:rules()
-	self:allow{proto.smtp}
-	publicip:dnatTo{self,proto.smtp}
+	PublicService(self,proto.smtp)
 end
 local nameserver1=Host:new{"Nameserver1",ip={"192.168.0.64/32"},net=private}
 function nameserver1:rules()
-	self:allow{proto.dns}
-	publicip:dnatTo{self,proto.dns}
+	PublicService(self,proto.dns)
 end
 local haproxy=Host:new{"Haproxy",ip={"192.168.0.69/32"},net=private}
 function haproxy:rules()
-	self:allow{proto.http,proto.https}
-	publicip:dnatTo{self,proto.http}
-	publicip:dnatTo{self,proto.https}
+	PublicService(self,proto.http,proto.https)
 end
 
 --[[

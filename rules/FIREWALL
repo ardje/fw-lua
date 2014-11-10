@@ -6,6 +6,7 @@ local proto=require"fw.protocols"
 local FORWARD=Net:new("FORWARD")
 
 function FORWARD:rules()
+	self:allow{ f=1,"--in-interface","lo"}
 end
 
 local PREROUTING=Net:new("PREROUTING")
@@ -15,11 +16,13 @@ function PREROUTING:rules_end()
 end
 local INPUT=Net:new("INPUT")
 function INPUT:rules()
+	self:allow{ f=1,"--in-interface","lo"}
 end
 function INPUT:rules_end()
 end
 local OUTPUT=Net:new("OUTPUT")
 function OUTPUT:rules()
+	self:allow{ f=1,"--in-interface","lo"}
 end
 function OUTPUT:rules_end()
 end
