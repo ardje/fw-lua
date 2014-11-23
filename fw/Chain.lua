@@ -1,6 +1,7 @@
 local Object=require"fw.Object"
 local M=Object:New("Chain")
 local IT=require"fw.IT"
+local IT6=require"fw.IT6"
 function M:addRule(r)
 	local prio=r.prio or 50
 	local chain=self:Name()
@@ -30,6 +31,12 @@ function M:allow(r)
 		r.f=1
 	end
 	self:addRule{f=1,prio=r.prio,r, "--jump","ACCEPT"}
+end
+function M:allow6(r)
+	if r.f == nil then
+		r.f=1
+	end
+	self:addRule6{f=1,prio=r.prio,r, "--jump","ACCEPT"}
 end
 function M:drop(r)
 	if r.f == nil then
@@ -62,6 +69,9 @@ end
 function M:established(r)
 	self:addRule{f=1,prio=r,"--match","conntrack","--ctstate","RELATED,ESTABLISHED","--jump","ACCEPT"}
 end
+function M:established6(r)
+	self:addRule6{f=1,prio=r,"--match","conntrack","--ctstate","RELATED,ESTABLISHED","--jump","ACCEPT"}
+end
 function M:rules_end()
 	local objects=self:_get("objects")
 	if objects == nil then
@@ -76,6 +86,13 @@ end
 
 function M:flushchain(io,t)
 	io:write("iptables --table ",t," --flush ",self:Name(),"\n")
+end
+function M:createchain6(io,t)
+	io:write("ip6tables --table ",t," --new-chain ",self:Name(),"\n")
+end
+
+function M:flushchain6(io,t)
+	io:write("ip6tables --table ",t," --flush ",self:Name(),"\n")
 end
 
 local Chain=M

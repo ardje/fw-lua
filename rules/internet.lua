@@ -1,12 +1,6 @@
-local Net=require"fw.Net"
-local Host=require"fw.Host"
-local Proto=require"fw.Proto"
-local proto=require"fw.protocols"
-
---local publicip=Host:new{"PublicIP",ip={"84.245.27.153/32"}}
 local publicip=Host:new{"PublicIP",ip={"84.245.6.101/32"}}
 
-local internet=Net:new("Internet")
+local internet=Net:new{"Internet",ip={}}
 internet:interface("fw1-vlan34")
 
 function internet:SNatMe(source)
@@ -14,5 +8,3 @@ function internet:SNatMe(source)
 	POSTROUTING:snat{{f=1,self:asDestination(),source:asSourceIP()},publicip}
 end
 
-function internet:rules()
-end

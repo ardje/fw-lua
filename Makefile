@@ -1,9 +1,9 @@
 ALL: iptables.log
 
 iptables.log: rules/* fw/* firewall.lua
-	-mkdir scripts
-	-rm scripts/*
-	lua firewall.lua > iptables.log
+	-mkdir -p scripts/ipv4 scripts/ipv6
+	-rm scripts/*/*
+	lua firewall.lua &> iptables.log
 	-diff -ruN scripts.old scripts
 
 apply: scripts/*

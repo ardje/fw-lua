@@ -5,7 +5,7 @@ M._filename={}
 
 M._stages={ create="10-create",rules="60-rules",flush="20-flush" }
 function M:outputkey(r)
-	local key=string.format("%s-%s-%s-%s",r.proto,self._stages[r.stage],r.table,r.name)
+	local key=string.format("%s/%s-%s-%s",r.proto,self._stages[r.stage],r.table,r.name)
 	local filename=string.format("%s/%s-tables.sh",self._basedir,key)
 	return key,filename
 end

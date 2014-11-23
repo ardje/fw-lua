@@ -10,7 +10,12 @@ local pip=require"fw.parser"
 	--return o
 --end
 function M:allow(...)
-	self.net:allow{f=1,self:asDestination(),...}
+	if self.ip ~= nil then
+		self.net:allow{f=1,self:asDestination(),...}
+	end
+	if self.ip6 ~= nil then
+		self.net:allow6{f=1,self:asDestination(),...}
+	end
 end
 function M:asSource()
 	return {f=1,"--source",self.ip}

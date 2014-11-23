@@ -14,7 +14,25 @@ function M:interface(interface)
 	end
 	local forward=Object:Get("FORWARD")
 	local chain=self:Name()
-	forward:iptables(nil,nil,nil,{ f=1,"--out-interface",interface,"--jump",chain} )
+	if self.ip ~= nil then
+		forward:iptables(nil,nil,nil,{ f=1,"--out-interface",interface,"--jump",chain} )
+	end
+	if self.ipv6 ~= nil then
+		forward:ip6tables(nil,nil,nil,{ f=1,"--out-interface",interface,"--jump",chain} )
+	end
+end
+function M:rules_end()
+	local objects=self:_get("objects")
+	if objects == nil then
+		if self.ip ~= nil then
+			self:established(80)
+			self:addRule{f=1,prio=80,"--jump","DROP"}
+		end
+		if self.ipv6 ~= nil then
+			self:established6(80)
+			self:addRule6{f=1,prio=80,"--jump","DROP"}
+		end
+	end
 end
 function M:asDestination()
 	return { f=1,"--out-interface",self._interface }

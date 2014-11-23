@@ -1,8 +1,3 @@
-local Net=require"fw.Net"
-local Host=require"fw.Host"
-local Proto=require"fw.Proto"
-local proto=require"fw.protocols"
-
 local private=Net:new{"Private",ip={"192.168.0.2/24"},ipv6={"2001:7b8:32d:0::/64"}}
 private:interface("fw1-vlan1")
 local privateip=Host:new{"PrivateIP",ip={"192.168.0.2/32"}}
@@ -13,8 +8,10 @@ function private:SNatMe(source)
 end
 function private:rules()
 	local internet=Object:Get("Internet")
+	local internet6=Object:Get("Internet6")
 	internet:SNatMe(self)
 	internet:allow(self)
+	internet6:allow6(self)
 	local INPUT=Object:Get("INPUT")
 	INPUT:allow(self)
 end
