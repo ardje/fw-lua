@@ -1,6 +1,7 @@
 local Object=require"fw.Object"
 local Chain=require"fw.Chain"
 local M=Chain:New("Net")
+local pip=require"fw.parser"
 function M:interface(interface)
 	if self._interface ~= nil then
 		if type(self._interface) == "string" then
@@ -26,10 +27,15 @@ end
 function M:asAddress()
 	return self.ip
 end
+function M:asIP()
+	return pip:asIPList(self.ip)
+end
 function M:asSourceIP()
 	return { f=1,"--source",self:asAddress() }
 end
 function M:asDestinationIP()
 	return { f=1,"--destination",self:asAddress() }
 end
+M.asDefault=M.asSource
+	
 return M

@@ -14,16 +14,22 @@ function M:iptables(table,chain,prio,r)
 	IT:add(table,chain,prio,r)
 end
 function M:allow(r)
+	if r.f == nil then
+		r.f=1
+	end
 	self:addRule{f=1,prio=r.prio,r, "--jump","ACCEPT"}
 end
 function M:drop(r)
+	if r.f == nil then
+		r.f=1
+	end
 	self:addRule{f=1,prio=r.prio,r, "--jump","DROP"}
 end
 function M:dnat(r)
 	local from=r[1] or r.from
 	local to=r[2] or r.to
 	local service=r[3] or r.service
-	local rto=to:asAddress()
+	local rto=to:asIP()
 	if service ~= nil then
 		self:iptables("nat",nil,50,{f=1,from:asDestination(),service:asDestination(),"--jump","DNAT","--to",rto})
 	else
@@ -34,7 +40,7 @@ function M:snat(r)
 	local rules=r[1] or r.match
 	local to=r[2] or r.to
 	local service=r[3] or r.service
-	local rto=to:asAddress()
+	local rto=to:asIP()
 	if service ~= nil then
 		self:iptables("nat",nil,50,{f=1,rules,"--jump","SNAT","--to",rto})
 	else

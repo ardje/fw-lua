@@ -1,5 +1,6 @@
 local Object=require"fw.Object"
 local M=Object:New("Host")
+local pip=require"fw.parser"
 
 --function M:new(n)
 	--local o=self.super.new(self,n[1])
@@ -16,6 +17,9 @@ function M:asSource()
 end
 function M:asDestination()
 	return {f=1,"--destination",self.ip}
+end
+function M:asIP()
+	return pip:asIPList(self.ip)
 end
 function M:asAddress()
 	return { self.ip }
