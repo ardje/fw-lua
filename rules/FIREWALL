@@ -22,7 +22,6 @@ end
 INPUT.rules_end=empty
 local OUTPUT=Chain:new("OUTPUT")
 function OUTPUT:rules()
-	self:allow{ f=1,"--in-interface","lo"}
 end
 OUTPUT.rules_end=empty
 local POSTROUTING=Chain:new("POSTROUTING")

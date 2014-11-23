@@ -3,12 +3,13 @@ local Host=require"fw.Host"
 local Proto=require"fw.Proto"
 local proto=require"fw.protocols"
 
-local private=Net:new{"Private",ip={"192.168.0.2/24"}}
+local private=Net:new{"Private",ip={"192.168.0.2/24"},ipv6={"2001:7b8:32d:0::/64"}}
 private:interface("fw-vlan1")
 
 function private:rules()
 	local internet=Object:Get("Internet")
 	internet:SNatMe(self)
+	internet:allow(self)
 end
 
 local function PublicService(self, ...)

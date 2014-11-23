@@ -3,13 +3,15 @@ local Host=require"fw.Host"
 local Proto=require"fw.Proto"
 local proto=require"fw.protocols"
 
-local publicip=Host:new{"Publicip",ip={"84.245.27.153/32"}}
-local guestwifi=Net:new{"GuestWifi",ip={"192.168.9.2/24"}}
+local guestwifi=Net:new{"GuestWifi",ip={"192.168.9.2/24"},ipv6={"2001:7b8:32d:0::/64"}}
 guestwifi:interface("fw-vlan5")
 
 function guestwifi:rules()
+	local publicip=Object:Get("PublicIP")
 	local internet=Object:Get("Internet")
 	internet:SNatMe(self)
+	internet:drop{self,proto.smtp}
+	internet:allow{self}
 end
 
 
