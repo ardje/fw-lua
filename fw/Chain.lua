@@ -47,9 +47,13 @@ function M:snat(r)
 		self:iptables("nat",nil,50,{f=1,rules,"--jump","SNAT","--to",rto})
 	end
 end
+function M:established(r)
+	self:addRule{f=1,prio=r,"--match","conntrack","--ctstate","RELATED,ESTABLISHED","--jump","ACCEPT"}
+end
 function M:rules_end()
 	local objects=self:_get("objects")
 	if objects == nil then
+		self:established(80)
 		self:addRule{f=1,prio=80,"--jump","DROP"}
 	end
 end
