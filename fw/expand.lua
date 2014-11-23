@@ -84,12 +84,12 @@ local function expand(r,depth)
 	end
 	return items
 end
-local function dt(t,prefix)
+local function dt(io,t,prefix)
 	--print("table rule dump")
 	local p=table.concat((prefix or {})," ")
 	for _,v in pairs(t) do
 		local r=table.concat(v," ")
-		io.write(p,"\t",r,"\n")
+		io:write(p,"\t",r,"\n")
 		--print(table.unpack(prefix or {}),table.unpack(v))
 	end
 end

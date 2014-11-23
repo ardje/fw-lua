@@ -1,0 +1,5 @@
+#!/bin/bash
+for i in scripts/*;do
+echo "EXECUTING $i"
+bash -x $i
+done

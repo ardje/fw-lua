@@ -1,4 +1,12 @@
-ALL: iptables.sh
+ALL: iptables.log
 
-iptables.sh: rules/* fw/* firewall.lua
-	lua firewall.lua > iptables.sh
+iptables.log: rules/* fw/* firewall.lua
+	-mkdir scripts
+	-rm scripts/*
+	lua firewall.lua > iptables.log
+	-diff -ruN scripts.old scripts
+
+apply: scripts/*
+	./applyscripts
+	-rm -fr scripts.old	
+	-mv scripts scripts.old

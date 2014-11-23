@@ -4,12 +4,19 @@ local Proto=require"fw.Proto"
 local proto=require"fw.protocols"
 
 local private=Net:new{"Private",ip={"192.168.0.2/24"},ipv6={"2001:7b8:32d:0::/64"}}
-private:interface("fw-vlan1")
+private:interface("fw1-vlan1")
+local privateip=Host:new{"PrivateIP",ip={"192.168.0.2/32"}}
 
+function private:SNatMe(source)
+	local POSTROUTING=Object:Get("POSTROUTING")
+	POSTROUTING:snat{{f=1,self:asDestination(),source:asSourceIP()},privateip}
+end
 function private:rules()
 	local internet=Object:Get("Internet")
 	internet:SNatMe(self)
 	internet:allow(self)
+	local INPUT=Object:Get("INPUT")
+	INPUT:allow(self)
 end
 
 local function PublicService(self, ...)
@@ -34,6 +41,10 @@ end
 local mail1=Host:new{"Mail1",ip={"192.168.0.250/32"},net=private}
 function mail1:rules()
 	PublicService(self,proto.smtp)
+end
+local inameservers=Host:new{"InternalNameservers",ip={"192.168.0.65/32","192.168.0.95/32"},net=private}
+function inameservers:rules()
+	self:allow{proto.dns}
 end
 local nameserver1=Host:new{"Nameserver1",ip={"192.168.0.64/32"},net=private}
 function nameserver1:rules()

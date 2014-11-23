@@ -2,8 +2,7 @@ Object=require"fw.Object"
 local ordered=require"fw.ordered"
 local dh=require"dumphash"
 local e=require"fw.expand"
-local M=Object:New(IT)
-local output=require"fw.output"
+local M=Object:New("IT6")
 M._tables={}
 
 --[[
@@ -22,28 +21,25 @@ end
 function M:createchain(t,c)
 	local chainobject=Object:Get(c)
 	if chainobject ~= nil then
-		local io=output:output{proto="ipv4",stage="create",table=t,name=c}
-		chainobject:createchain(io,t)
+		chainobject:createchain(t)
 	else
 		io.stderr:write("Skipping createchain"..c.."\n")
 	end
 end
 
 function M:flushchain(t,c)
-	local io=output:output{proto="ipv4",stage="flush",table=t,name=c}
 	local chainobject=Object:Get(c)
-	io:write("iptables --table ",t," --flush ",chainobject:Name(),"\n")
+	io.write("ip6tables --table ",t," --flush ",chainobject:Name(),"\n")
 end
 
 function M:printchain(t,c)
 	--local chainobject=Object:Get(c)
-	local io=output:output{proto="ipv4",stage="rules",table=t,name=c}
 	for prio,rules in ordered.pairs(self._tables[t][c]) do
 		--io.write("Dumping lines for ",t," ",c,"\n")
-		--chainobject:iptables_start(t)
+		--chainobject:ip6tables_start(t)
 		for _,aRule in ipairs(rules) do
 			local lines=e.expand(aRule)
-			e.dt(io,lines,{"iptables","--table",t,"--append",c})
+			e.dt(lines,{"ip6tables","--table",t,"--append",c})
 		end
 	end
 end
