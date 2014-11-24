@@ -1,0 +1,43 @@
+#!/bin/sh -x
+### BEGIN INIT INFO
+# Provides:          firewall
+# Required-Start:    mountkernfs $local_fs urandom
+# Required-Stop:     $local_fs
+# Default-Start:     S 2 3
+# Default-Stop:      0 6
+# Short-Description: start firewall scripts
+# Description:       start firewall scripts
+### END INIT INFO
+
+PATH="/sbin:/bin"
+RUN_DIR="/run/network"
+IFSTATE="$RUN_DIR/ifstate"
+
+
+. /lib/lsb/init-functions
+
+VERBOSE=no
+STARTFIREWALL=yes
+BASEDIR=/root/fw/fw-lua
+
+[ -f /etc/default/firewall ] && . /etc/default/firewall
+
+case "$1" in
+start|reload|force-reload|restart)
+	cd $BASEDIR
+	./applyscripts scripts.applied
+	ifup fw1-vlan34
+	;;
+
+stop)
+	;;
+
+*)
+	echo "Usage: /etc/init.d/firewall {start|stop|reload|restart|force-reload}"
+	exit 1
+	;;
+esac
+
+exit 0
+
+# vim: noet ts=8

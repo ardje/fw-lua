@@ -1,67 +1,5 @@
 root@wrt25:/etc/chains# ls
 FORWARD     INPUT       awindows    copperjet   internet    private     weegschaal  wireless
-root@wrt25:/etc/chains# grep . FORWARD 
-#!/bin/sh
-. /etc/fw.inc
-case "$1" in
-        start)
-                ip6tables -t filter -N ${self}
-                ip6tables -t filter --flush ${self}
-                allow6 --proto ipv6-icmp
-                ;;
-        rules)
-                ;;
-        end)
-                drop6
-                ;;
-esac
-#!/bin/sh
-. /etc/fw.inc
-case "$1" in
-        start)
-                ip6tables -t filter -N ${self}
-                ip6tables -t filter --flush ${self}
-                ;;
-        rules)
-                allow6 --proto tcp --destination-port 22
-                allow6 --in-interface lo
-                allow6 --proto ipv6-icmp
-                ;;
-        end)
-#               drop6
-                ;;
-esac
-#!/bin/sh
-. /etc/fw.inc
-case "$1" in
-        start)
-                generic_start
-                ;;
-        rules)
-                #generic_forwarding ${IFWAN2} --source 192.168.0.150
-                #iptables --table filter --append awindows --in-interface ${IFLAN} --source 192.168.0.150 --jump DROP
-                ;;
-        end)
-                iptables --table filter --append awindows --jump DROP
-                ;;
-esac
-root@wrt25:/etc/chains# grep . copperjet 
-#!/bin/sh
-. /etc/fw.inc
-case "$1" in
-        start)
-                generic_start
-                ;;
-        rules)
-                #generic_forwarding ${IFWAN2} --destination 172.19.3.0/24
-                generic_forwarding ${IFMAN} --destination 192.168.1.0/24
-                iptables --table filter --append copperjet --in-interface ${IFLAN} --source 192.168.0.130 --jump ACCEPT
-                iptables --table filter --append copperjet --in-interface ${IFLAN} --source 192.168.0.0/24 --jump ACCEPT
-                ;;
-        end)
-                iptables --table filter --append copperjet --jump DROP
-                ;;
-esac
 root@wrt25:/etc/chains# grep . internet 
 #!/bin/sh
 . /etc/fw.inc
@@ -88,43 +26,6 @@ case "$1" in
                 ;;
         end)
                 iptables --table filter --append internet --jump DROP
-                ;;
-esac
-root@wrt25:/etc/chains# grep . weegschaal 
-#!/bin/sh
-. /etc/fw.inc
-case "$1" in
-        start)
-                generic_start
-                ;;
-        rules)
-                iptables --table filter --append weegschaal --proto udp --destination-port 123 --jump ACCEPT
-                iptables --table filter --append weegschaal --jump LOG
-#               iptables --table filter --append weegschaal --proto tcp --jump REJECT --reject-with tcp-reset
-                iptables --table filter --append weegschaal --jump ACCEPT
-                ;;
-        end)
-                iptables --table filter --append wireless --jump DROP
-                ;;
-esac
-root@wrt25:/etc/chains# grep . wireless 
-#!/bin/sh
-. /etc/fw.inc
-case "$1" in
-        start)
-                generic_start
-                ;;
-        rules)
-                generic_forwarding ${IFWIFI}
-                iptables --table filter --append wireless --in-interface ${IFLAN} --jump ACCEPT
-                iptables --table filter --append wireless --in-interface ${IFWAN1} --source ! 10.0.0.0/8 --jump ACCEPT
-                #iptables --table filter --append wireless --in-interface ${IFWAN2} --source ! 172.19.3.1/32 --jump ACCEPT
-                iptables --table filter --append input_rule --in-interface ${IFWIFI} --proto udp --destination-port 67 --jump ACCEPT
-                iptables --table filter --append input_rule --in-interface ${IFWIFI} --proto udp --destination-port 68 --jump ACCEPT
-                allow6
-                ;;
-        end)
-                iptables --table filter --append wireless --jump DROP
                 ;;
 esac
 root@wrt25:/etc/chains# grep . private 
@@ -243,4 +144,7 @@ case "$1" in
                 iptables --table filter --append ${self} --jump DROP
                 ;;
 esac
+
+
+
 

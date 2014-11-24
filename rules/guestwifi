@@ -4,8 +4,12 @@ guestwifi:interface("fw1-vlan5")
 function guestwifi:rules()
 	local private=Object:Get("Private")
 	local internet=Object:Get("Internet")
+	local INPUT=Object:Get("INPUT")
 	internet:SNatMe(self)
-	private:SNatMe(self)
+	-- private:SNatMe(self)
 	internet:drop{self,proto.smtp}
 	internet:allow{self}
+	INPUT:allow{self,proto.bootps}
+	self:allow{prio=85}
+	self:allow6{prio=85}
 end

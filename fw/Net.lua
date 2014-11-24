@@ -26,11 +26,11 @@ function M:rules_end()
 	if objects == nil then
 		if self.ip ~= nil then
 			self:established(80)
-			self:addRule{f=1,prio=80,"--jump","DROP"}
+			self:addRule{f=1,prio=99,"--jump","DROP"}
 		end
 		if self.ipv6 ~= nil then
 			self:established6(80)
-			self:addRule6{f=1,prio=80,"--jump","DROP"}
+			self:addRule6{f=1,prio=99,"--jump","DROP"}
 		end
 	end
 end

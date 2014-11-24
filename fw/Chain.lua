@@ -44,6 +44,12 @@ function M:drop(r)
 	end
 	self:addRule{f=1,prio=r.prio,r, "--jump","DROP"}
 end
+function M:drop6(r)
+	if r.f == nil then
+		r.f=1
+	end
+	self:addRule6{f=1,prio=r.prio,r, "--jump","DROP"}
+end
 function M:dnat(r)
 	local from=r[1] or r.from
 	local to=r[2] or r.to
@@ -76,7 +82,7 @@ function M:rules_end()
 	local objects=self:_get("objects")
 	if objects == nil then
 		self:established(80)
-		self:addRule{f=1,prio=80,"--jump","DROP"}
+		self:addRule{f=1,prio=99,"--jump","DROP"}
 	end
 end
 

@@ -13,12 +13,18 @@ function M:allow(...)
 	if self.ip ~= nil then
 		self.net:allow{f=1,self:asDestination(),...}
 	end
-	if self.ip6 ~= nil then
-		self.net:allow6{f=1,self:asDestination(),...}
+	if self.ipv6 ~= nil then
+		self.net:allow6{f=1,self:asDestination6(),...}
 	end
+end
+function M:asSource6()
+	return {f=1,"--source",self.ipv6}
 end
 function M:asSource()
 	return {f=1,"--source",self.ip}
+end
+function M:asDestination6()
+	return {f=1,"--destination",self.ipv6}
 end
 function M:asDestination()
 	return {f=1,"--destination",self.ip}

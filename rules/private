@@ -13,7 +13,8 @@ function private:rules()
 	internet:allow(self)
 	internet6:allow6(self)
 	local INPUT=Object:Get("INPUT")
-	INPUT:allow(self)
+	INPUT:allow{self}
+	INPUT:allow6{self}
 end
 
 local function PublicService(self, ...)
@@ -21,10 +22,13 @@ local function PublicService(self, ...)
 	for _,aservice in ipairs{...} do
 		self:allow{aservice}
 		publicip:dnatTo{self,aservice}
+--		if self.ipv6 then
+--			self:allow6{asservice}
+--		end
 	end
 end
 
-local shell3=Host:new{"Shell3",ip={"192.168.0.44/32"},net=private}
+local shell3=Host:new{"Shell3",ip={"192.168.0.44/32"},ipv6={"2001:7b8:32d::16"},net=private}
 function shell3:rules()
 	PublicService(self,proto.ssh)
 end
@@ -35,7 +39,7 @@ function ast2:rules()
 	PublicService(self,proto.sip,proto.iax2,proto.dundi,rtprange)
 end
 
-local mail1=Host:new{"Mail1",ip={"192.168.0.250/32"},net=private}
+local mail1=Host:new{"Mail1",ip={"192.168.0.250/32"},ipv6={"2001:7b8:32d::4"},net=private}
 function mail1:rules()
 	PublicService(self,proto.smtp)
 end
@@ -47,7 +51,7 @@ local nameserver1=Host:new{"Nameserver1",ip={"192.168.0.64/32"},net=private}
 function nameserver1:rules()
 	PublicService(self,proto.dns)
 end
-local haproxy=Host:new{"Haproxy",ip={"192.168.0.69/32"},net=private}
+local haproxy=Host:new{"Haproxy",ip={"192.168.0.69/32"},ipv6={"2001:7b8:32d::5"},net=private}
 function haproxy:rules()
 	PublicService(self,proto.http,proto.https)
 end
