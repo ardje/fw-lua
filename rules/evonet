@@ -4,7 +4,8 @@ function evonet:rules()
 	local internet=Object:Get("Internet")
 	--local internet6=Object:Get("Internet6")
 	internet:SNatMe(self)
-	internet:allow(self)
+	internet:allow{self}
+	self:allow{Object:Get("Private")}
 	--internet6:allow6(self)
 	--local INPUT=Object:Get("INPUT")
 	--INPUT:allow{self}
