@@ -8,4 +8,5 @@ function firewall:rules()
 	--INPUT:allow{proto.bootps}
 	INPUT:established6(50)
 	INPUT:drop6{}
+	INPUT:drop{}
 end
