@@ -1,4 +1,4 @@
-local firewall=Object:new("firewall")
+firewall=Object:new("firewall")
 
 function firewall:rules()
 	local INPUT=Object:Get("INPUT")

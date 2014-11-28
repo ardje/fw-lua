@@ -1,13 +1,28 @@
+package.path=package.path ..";/usr/share/lua/5.2/?.lua;/usr/share/lua/5.2/?/init.lua;./?.lua"
+package.cpath=package.cpath ..";/usr/lib/arm-linux-gnueabihf/lua/5.2/?.so"
 local log=require"fw.log"
 local sandbox=require"fw.sandbox"
 local rules=require "fw.rules"
 local ordered=require"fw.ordered"
 local basedir="rules"
 local rulelist=rules:list(basedir)
+--[[
+ We first create a shared sandbox env with all important stuff
+ Then we create a per file private sandbox with the shared sandbox
+ as meta index.
+ To create "globals" in the shared sandbox we create a private export
+ function with access to the shared sandbox.
+-- ]]
 local shared=sandbox:shared()
 for k,v in ordered.pairs(rulelist) do
+  local private=sandbox:private(shared)
+  function private.export(...)
+    for _,v in pairs(...) do
+      shared[v]=private[v]
+    end
+  end
 	log.print("ruling:",k)
-	local rule=assert(loadfile(basedir .. "/" .. k,"t",shared))
+	local rule=assert(loadfile(basedir .. "/" .. k,"t",private))
 	rule()
 end
 local Object=require"fw.Object"

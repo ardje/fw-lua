@@ -1,4 +1,4 @@
-local guestwifi=Net:new{"GuestWifi",ip={"192.168.9.2/24"},ipv6={"2001:7b8:32d:0::/64"}}
+guestwifi=Net:new{"GuestWifi",ip={"192.168.9.2/24"},ipv6={"2001:7b8:32d:0::/64"}}
 guestwifi:interface("fw1-vlan5")
 
 function guestwifi:rules()
