@@ -1,0 +1,6 @@
+In order to use this you have to:
+aptitude install lua5.2 lua-posix
+or equivalent.
+
+So:
+requirements are lua-posix and lua5.2 or higher for now
