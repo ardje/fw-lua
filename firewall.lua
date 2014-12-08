@@ -1,10 +1,11 @@
-package.path=package.path ..";/usr/share/lua/5.2/?.lua;/usr/share/lua/5.2/?/init.lua;./?.lua"
-package.cpath=package.cpath ..";/usr/lib/arm-linux-gnueabihf/lua/5.2/?.so"
 local log=require"fw.log"
 local sandbox=require"fw.sandbox"
 local rules=require "fw.rules"
 local ordered=require"fw.ordered"
-local basedir="rules"
+local basedir=rulesdir or "/etc/fwrules"
+local outputdir=scriptsdir or "/var/lib/firewall/scripts"
+local output=require"fw.output"
+output:outputdir(outputdir)
 local rulelist=rules:list(basedir)
 --[[
  We first create a shared sandbox env with all important stuff
