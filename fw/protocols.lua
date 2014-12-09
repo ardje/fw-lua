@@ -9,5 +9,6 @@ return {
 	smtp=s:new{"smtp",proto="tcp",port=25},
 	dns=s:new{"dns",proto={"tcp","udp"},port=53},
 	bootps=s:new{"bootps",proto={"udp"},port=67},
-	bootpc=s:new{"bootpc",proto={"udp"},port=68}
+	bootpc=s:new{"bootpc",proto={"udp"},port=68},
+	squid=s:new{"squid",proto={"tcp"},port=3128}
 }
