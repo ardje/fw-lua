@@ -1,5 +1,5 @@
 local M={}
-local dh=require"dumphash"
+local dh=require"fw.dumphash"
 local function explode(l,r)
 	local nl=#l
 	local nr=#r
