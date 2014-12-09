@@ -6,6 +6,8 @@ S.Net=require"fw.Net"
 S.Host=require"fw.Host"
 S.Proto=require"fw.Proto"
 S.proto=require"fw.protocols"
+local posix=require"posix"
+S.sysname=posix.uname("%n")
 M._meta={ __index=M.S }
 function M:shared()
 	return self.S
