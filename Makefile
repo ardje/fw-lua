@@ -1,12 +1,11 @@
 ALL: iptables.log
 
 iptables.log: rules/* fw/* firewall.lua Makefile
-	-mkdir -p scripts/ipv4 scripts/ipv6
-	-rm scripts/*/*
+	-rm /var/lib/firewall/scripts/*/*
 	lua firewall.lua 2> iptables.log
-	-diff -ruN scripts.applied scripts
+	-diff -ruN /var/lib/firewall/scripts.applied /var/lib/firewall/scripts
 
 apply: scripts/*
 	./applyscripts
-	-rm -fr scripts.applied	
-	-mv scripts scripts.applied
+	-rm -fr /var/lib/firewall/scripts.applied	
+	-mv /var/lib/firewall/scripts /var/lib/firewall/scripts.applied

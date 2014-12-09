@@ -1,7 +1,8 @@
 #!/bin/bash
+BASEDIR=/var/lib/firewall
 SCRIPTSDIR=scripts
 if [ -n "$1" ]; then SCRIPTSDIR="$1";fi
-for i in $SCRIPTSDIR/*/*;do
+for i in $BASEDIR/$SCRIPTSDIR/*/*;do
 echo "EXECUTING $i"
 bash -x $i
 done
