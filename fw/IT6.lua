@@ -1,6 +1,6 @@
 Object=require"fw.Object"
 local ordered=require"fw.ordered"
-local dh=require"dumphash"
+--local dh=require"dumphash"
 local e=require"fw.expand"
 local M=Object:New("IT6")
 local output=require"fw.output"
