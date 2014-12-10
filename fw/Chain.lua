@@ -81,8 +81,14 @@ end
 function M:rules_end()
 	local objects=self:_get("objects")
 	if objects == nil then
-		self:established(80)
-		self:addRule{f=1,prio=99,"--jump","DROP"}
+		if IT:exists("filter",self:Name()) then
+			self:established(80)
+			self:addRule{f=1,prio=99,"--jump","DROP"}
+		end
+		if IT6:exists("filter",self:Name()) then
+			self:established6(80)
+			self:addRule6{f=1,prio=99,"--jump","DROP"}
+		end
 	end
 end
 

@@ -19,6 +19,11 @@ function M:add(t,c,p,r)
 	n[#n+1]=r
 end
 
+function M:exists(t,c)
+	return self._tables[t] and self._tables[t][c] ~= nil
+end
+
+
 function M:createchain(t,c)
 	local chainobject=Object:Get(c)
 	if chainobject ~= nil then
