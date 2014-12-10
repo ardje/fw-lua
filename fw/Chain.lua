@@ -113,12 +113,14 @@ local function empty()
 end
 
 FORWARD.createchain=empty
+FORWARD.createchain6=empty
 FORWARD.rules=empty
 
 local PREROUTING=Chain:new("PREROUTING")
 PREROUTING.rules=empty
 PREROUTING.rules_end=empty
 PREROUTING.createchain=empty
+PREROUTING.createchain6=empty
 local INPUT=Chain:new("INPUT")
 function INPUT:rules()
 	self:allow{ f=1,"--in-interface","lo"}
@@ -131,6 +133,7 @@ end
 OUTPUT.rules_end=empty
 local POSTROUTING=Chain:new("POSTROUTING")
 POSTROUTING.createchain=empty
+POSTROUTING.createchain6=empty
 POSTROUTING.rules=empty
 POSTROUTING.rules_end=empty
 return M
