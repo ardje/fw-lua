@@ -1,6 +1,6 @@
 ALL: iptables.log
 
-iptables.log: rules/* fw/* firewall.lua Makefile
+iptables.log: rules/* /etc/fwrules/rules/* fw/* firewall.lua Makefile
 	-rm /var/lib/firewall/scripts/*/*
 	lua firewall.lua 2> iptables.log
 	-diff -ruN /var/lib/firewall/scripts.applied /var/lib/firewall/scripts
