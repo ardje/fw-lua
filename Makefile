@@ -5,7 +5,7 @@ iptables.log: rules/* fw/* firewall.lua Makefile
 	lua firewall.lua 2> iptables.log
 	-diff -ruN /var/lib/firewall/scripts.applied /var/lib/firewall/scripts
 
-apply: scripts/*
+apply: /var/lib/firewall/scripts/*
 	./applyscripts
 	-rm -fr /var/lib/firewall/scripts.applied	
 	-mv /var/lib/firewall/scripts /var/lib/firewall/scripts.applied
