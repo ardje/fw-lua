@@ -1,12 +1,6 @@
 firewall=Object:new("firewall")
 
 function firewall:rules()
-	local INPUT=Object:Get("INPUT")
+	INPUT:allow{"--in-interface","lo"}
 	INPUT:allow6{"--in-interface","lo"}
-	INPUT:allow6{"--proto","icmpv6"}
-	--INPUT:allow{proto.bootpc}
-	--INPUT:allow{proto.bootps}
-	INPUT:established6(50)
-	INPUT:drop6{}
-	INPUT:drop{}
 end
