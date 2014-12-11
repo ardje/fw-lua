@@ -9,7 +9,8 @@ IC.rules_end=empty
 local FORWARD=IC:new("FORWARD")
 local PREROUTING=IC:new("PREROUTING")
 local INPUT=IC:new("INPUT")
-INPUT.rules_end=IC._mo.super.rules_end
 local OUTPUT=IC:new("OUTPUT")
 local POSTROUTING=IC:new("POSTROUTING")
+INPUT.rules_end=IC._mo.super.rules_end
+FORWARD.rules_end=IC._mo.super.rules_end
 return IC
