@@ -42,13 +42,13 @@ function M:untrack(r)
 	if r.f == nil then
 		r.f=1
 	end
-	self:addRule{f=1,prio=r.prio,table="raw",r, "--jump","UNTRACK"}
+	self:addRule{f=1,prio=r.prio,table="raw",r, "--jump","CT","--notrack"}
 end
 function M:untrack6(r)
 	if r.f == nil then
 		r.f=1
 	end
-	self:addRule6{f=1,prio=r.prio,table="raw",r, "--jump","UNTRACK"}
+	self:addRule6{f=1,prio=r.prio,table="raw",r, "--jump","CT","--notrack"}
 end
 function M:drop(r)
 	if r.f == nil then
