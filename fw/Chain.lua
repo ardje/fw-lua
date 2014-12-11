@@ -74,9 +74,11 @@ function M:snat(r)
 end
 function M:established(r)
 	self:addRule{f=1,prio=r,"--match","conntrack","--ctstate","RELATED,ESTABLISHED","--jump","ACCEPT"}
+	self:addRule{f=1,prio=r,"--match","conntrack","--ctstate","UNTRACKED","--jump","ACCEPT"}
 end
 function M:established6(r)
 	self:addRule6{f=1,prio=r,"--match","conntrack","--ctstate","RELATED,ESTABLISHED","--jump","ACCEPT"}
+	self:addRule6{f=1,prio=r,"--match","conntrack","--ctstate","UNTRACKED","--jump","ACCEPT"}
 end
 function M:rules_end()
 	local objects=self:_get("objects")
@@ -107,35 +109,6 @@ function M:flushchain6(io,t)
 	io:write("ip6tables --table ",t," --flush ",self:Name(),"\n")
 end
 
-local Chain=M
-local FORWARD=Chain:new("FORWARD")
-local function empty()
-end
-
-FORWARD.createchain=empty
-FORWARD.createchain6=empty
-FORWARD.rules=empty
-
-local PREROUTING=Chain:new("PREROUTING")
-PREROUTING.rules=empty
-PREROUTING.rules_end=empty
-PREROUTING.createchain=empty
-PREROUTING.createchain6=empty
-local INPUT=Chain:new("INPUT")
-function INPUT:rules()
-	self:allow{ f=1,"--in-interface","lo"}
-	self:established(50)
-end
-INPUT.rules_end=empty
-local OUTPUT=Chain:new("OUTPUT")
-function OUTPUT:rules()
-end
-OUTPUT.rules_end=empty
-local POSTROUTING=Chain:new("POSTROUTING")
-POSTROUTING.createchain=empty
-POSTROUTING.createchain6=empty
-POSTROUTING.rules=empty
-POSTROUTING.rules_end=empty
 return M
 
 
