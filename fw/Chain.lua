@@ -38,6 +38,18 @@ function M:allow6(r)
 	end
 	self:addRule6{f=1,prio=r.prio,r, "--jump","ACCEPT"}
 end
+function M:untrack(r)
+	if r.f == nil then
+		r.f=1
+	end
+	self:addRule{f=1,prio=r.prio,table="raw",r, "--jump","UNTRACK"}
+end
+function M:untrack6(r)
+	if r.f == nil then
+		r.f=1
+	end
+	self:addRule6{f=1,prio=r.prio,table="raw",r, "--jump","UNTRACK"}
+end
 function M:drop(r)
 	if r.f == nil then
 		r.f=1
