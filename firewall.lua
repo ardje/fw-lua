@@ -18,7 +18,7 @@ local shared=sandbox:shared()
 for k,v in ordered.pairs(rulelist) do
   local private=sandbox:private(shared)
   function private.export(...)
-    for _,v in pairs(...) do
+    for _,v in pairs{...} do
       shared[v]=private[v]
     end
   end
