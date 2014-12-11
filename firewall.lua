@@ -22,9 +22,9 @@ for k,v in ordered.pairs(rulelist) do
       shared[v]=private[v]
     end
   end
-	log.print("ruling:",k)
-	local rule=assert(loadfile(basedir .. "/" .. k,"t",private))
-	rule()
+  log.print("ruling:",k)
+  local rule=assert(loadfile(basedir .. "/" .. k,"t",private))
+  rule()
 end
 local Object=require"fw.Object"
 Object:RunPhase("setup")
