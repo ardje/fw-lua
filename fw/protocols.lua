@@ -10,6 +10,6 @@ return {
 	dns=s:new{"dns",proto={"tcp","udp"},port=53},
 	bootps=s:new{"bootps",proto={"udp"},port=67},
 	bootpc=s:new{"bootpc",proto={"udp"},port=68},
-	squid=s:new{"squid",proto={"tcp"},port=3128}
+	squid=s:new{"squid",proto={"tcp"},port=3128},
 	ntp=s:new{"ntp",proto={"udp"},port=123}
 }
