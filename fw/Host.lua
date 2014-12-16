@@ -2,13 +2,6 @@ local Object=require"fw.Object"
 local M=Object:New("Host")
 local pip=require"fw.parser"
 
---function M:new(n)
-	--local o=self.super.new(self,n[1])
-	--print("Host:new",n[1])
-	--o.ip=n.ip
-	--o.net=n.net
-	--return o
---end
 function M:allow(...)
 	if self.ip ~= nil then
 		self.net:allow{f=1,self:asDestination(),...}
