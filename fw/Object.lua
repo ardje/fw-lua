@@ -58,6 +58,9 @@ function M:_new(p)
 				end
 			end
 		end
+		if M:Get(name) then
+			io.stderr:write("WARNING: Object ",name," redefined\n")
+		end
 		o._mo.name=name
 	end
 	setmetatable(o,self:_meta())

@@ -5,6 +5,7 @@ local IC=require"fw.InternalChain"
 S.Chain=require"fw.Chain"
 S.Net=require"fw.Net"
 S.Host=require"fw.Host"
+S.ServiceHost=require"fw.ServiceHost"
 S.Proto=require"fw.Proto"
 S.proto=require"fw.protocols"
 S.INPUT=Object:Get("INPUT")
