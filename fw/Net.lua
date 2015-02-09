@@ -7,7 +7,7 @@ function M:interface(interface)
 		if type(self._interface) == "string" then
 			self._interface={ self._interface,interface }
 		else
-			array.push(self._interface,interface)
+			table.insert(self._interface,interface)
 		end
 	else
 		self._interface=interface

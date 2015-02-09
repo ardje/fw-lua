@@ -1,0 +1,4 @@
+local internet=Net:new{"Internet",ip={}}
+internet:interface("fw1-vlan34")
+internet:interface("fw2-vlan34")
+internet:interface("fw3-vlan34")
