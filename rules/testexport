@@ -1,0 +1,4 @@
+PublicIPTest=Host:new{"PublicIP",ip="1.2.3.4"}
+NotPublicIPTest=Host:new{"NotPublicIP",ip="5.6.7.8"}
+export("PublicIPTest",NotPublicIPTest)
+

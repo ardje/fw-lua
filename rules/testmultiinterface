@@ -1,4 +1,7 @@
 local internet=Net:new{"Internet",ip={}}
+-- Create an _interface
 internet:interface("fw1-vlan34")
+-- transform _interface form string into table
 internet:interface("fw2-vlan34")
+-- push _interface , interface
 internet:interface("fw3-vlan34")
