@@ -21,7 +21,7 @@ function M:checkip(ip)
         end
         for k,v in pairs(d)
         do
-                n=tonumber(v)   
+                local n=tonumber(v)   
                 if n<0 or n>255
                 then
                         return nil
