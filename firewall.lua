@@ -4,7 +4,7 @@ local sandbox=require"fw.sandbox"
 local rules=require "fw.rules"
 local ordered=require"fw.ordered"
 local basedir=globals.get"rulesdir" or "/etc/fw/rules"
-local outputdir=scriptsdir or "/var/lib/firewall/scripts"
+local outputdir=globals.get"scriptsdir" or "/var/lib/firewall/scripts"
 local output=require"fw.output"
 output:outputdir(outputdir)
 local rulelist=rules:list(basedir)
