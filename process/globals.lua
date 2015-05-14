@@ -8,6 +8,10 @@ function M.exists(name)
   --print("searching for",name)
   return rawget(_G,name)~=nil
 end
+function M.get(name)
+  --print("searching for",name)
+  return rawget(_G,name)
+end
 M._meta={}
 function M._meta.__newindex(t, n, v)
   if not declaredNames[n] then
