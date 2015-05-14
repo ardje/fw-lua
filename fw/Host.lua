@@ -29,8 +29,8 @@ function M:asAddress()
 	return { self.ip }
 end
 function M:dnatTo(r)
-	dest=r[1] or r.dest
-	service=r[2] or r.service
+	local dest=r[1] or r.dest
+	local service=r[2] or r.service
 	local prerouting=assert(Object:Get("PREROUTING"))
 	prerouting:dnat{self,dest,service}
 end
