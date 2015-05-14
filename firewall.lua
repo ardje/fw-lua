@@ -1,9 +1,9 @@
-require "process.globals"
+local globals=require"process.globals"
 local log=require"fw.log"
 local sandbox=require"fw.sandbox"
 local rules=require "fw.rules"
 local ordered=require"fw.ordered"
-local basedir=rulesdir or "/etc/fw/rules"
+local basedir=(globals.exists"rulesdir" and rulesdir) or "/etc/fw/rules"
 local outputdir=scriptsdir or "/var/lib/firewall/scripts"
 local output=require"fw.output"
 output:outputdir(outputdir)
