@@ -1,6 +1,0 @@
-firewall=Object:new("firewall")
-
-function firewall:rules()
-	INPUT:allow{"--in-interface","lo"}
-	INPUT:allow6{"--in-interface","lo"}
-end

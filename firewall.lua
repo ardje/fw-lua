@@ -1,3 +1,4 @@
+require "process.globals"
 local log=require"fw.log"
 local sandbox=require"fw.sandbox"
 local rules=require "fw.rules"
@@ -19,7 +20,11 @@ for k,v in ordered.pairs(rulelist) do
   local private=sandbox:private(shared)
   function private.export(...)
     for _,v in pairs{...} do
-      shared[v]=private[v]
+      if type(v) ~= "string" then
+        log.print("export requires strings in "..k)
+      else
+        shared[v]=private[v]
+      end
     end
   end
   log.print("ruling:",k)

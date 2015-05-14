@@ -1,8 +1,8 @@
-Object=require"fw.Object"
+local Object=require"fw.Object"
 local ordered=require"fw.ordered"
 local dh=require"fw.dumphash"
 local e=require"fw.expand"
-local M=Object:New(IT)
+local M=Object:New"IT"
 local output=require"fw.output"
 M._tables={}
 

@@ -25,7 +25,7 @@ local function createoutputpath(key)
 --                        posix.mkdir(path)
                 end
         end
-        ps=posix.stat(key)
+        local ps=posix.stat(key)
         if ps and ps.type == "link" then
                 posix.unlink(key)
         end

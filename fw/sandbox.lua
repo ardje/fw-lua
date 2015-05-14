@@ -1,6 +1,7 @@
 local M={}
 M.S={}
 local S=M.S
+local Object=require"fw.Object"
 local IC=require"fw.InternalChain"
 S.Chain=require"fw.Chain"
 S.Net=require"fw.Net"
