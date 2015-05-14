@@ -1,19 +1,19 @@
 local M={}
 M.S={}
 local S=M.S
-local Object=require"fw.Object"
 local IC=require"fw.InternalChain"
+S.Object=require"fw.Object"
 S.Chain=require"fw.Chain"
 S.Net=require"fw.Net"
 S.Host=require"fw.Host"
 S.ServiceHost=require"fw.ServiceHost"
 S.Proto=require"fw.Proto"
 S.proto=require"fw.protocols"
-S.INPUT=Object:Get("INPUT")
-S.OUTPUT=Object:Get("OUTPUT")
-S.FORWARD=Object:Get("FORWARD")
-S.PREROUTING=Object:Get("PREROUTING")
-S.POSTROUTING=Object:Get("POSTROUTING")
+S.INPUT=S.Object:Get("INPUT")
+S.OUTPUT=S.Object:Get("OUTPUT")
+S.FORWARD=S.Object:Get("FORWARD")
+S.PREROUTING=S.Object:Get("PREROUTING")
+S.POSTROUTING=S.Object:Get("POSTROUTING")
 local posix=require"posix"
 S.sysname=posix.uname("%n")
 M._meta={ __index=M.S }
