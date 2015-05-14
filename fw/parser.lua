@@ -1,6 +1,6 @@
 local M = {}
 function M:checkip(ip)
-        d={}
+        local d={}
         d[1],d[2],d[3],d[4],mask=string.match(ip,"(%d+).(%d+).(%d+).(%d+)/(%d+)")
         if mask == nil
         then
