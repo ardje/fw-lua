@@ -1,5 +1,6 @@
 ALL: iptables.log
 
+
 iptables.log: rules/* /etc/fw/rules/* fw/* firewall.lua Makefile
 	-rm /var/lib/firewall/scripts/*/*
 	lua firewall.lua
