@@ -13,4 +13,5 @@ return {
 	squid=s:new{"squid",proto={"tcp"},port=3128},
 	ntp=s:new{"ntp",proto={"udp"},port=123},
 	rdp=s:new{"rdp",proto={"tcp"},port=3389}
+	svn=s:new{"svn",proto={"tcp"},port=3690}
 }
