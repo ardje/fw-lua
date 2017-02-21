@@ -16,4 +16,5 @@ return {
 	svn=s:new{"svn",proto={"tcp"},port=3690},
 	rsync=s:new{"rsync",proto={"tcp"},port=873},
 	syslog=s:new{"svn",proto={"udp"},port=514}
+	ipp=s:new{"svn",proto={"tcp"},port=631}
 }
