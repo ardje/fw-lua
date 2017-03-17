@@ -15,6 +15,8 @@ return {
 	rdp=s:new{"rdp",proto={"tcp"},port=3389},
 	svn=s:new{"svn",proto={"tcp"},port=3690},
 	rsync=s:new{"rsync",proto={"tcp"},port=873},
-	syslog=s:new{"svn",proto={"udp"},port=514},
-	ipp=s:new{"svn",proto={"tcp"},port=631},
+	syslog=s:new{"syslog",proto={"udp"},port=514},
+	ipp=s:new{"ipp",proto={"tcp"},port=631},
+	bitcoin=s:new{"bitcoin",proto={"tcp"},port=8333},
+	bitcointest=s:new{"bitcointest",proto={"tcp"},port=18333},
 }
