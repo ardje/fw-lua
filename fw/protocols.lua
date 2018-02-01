@@ -19,4 +19,6 @@ return {
 	ipp=s:new{"ipp",proto={"tcp"},port=631},
 	bitcoin=s:new{"bitcoin",proto={"tcp"},port=8333},
 	bitcointest=s:new{"bitcointest",proto={"tcp"},port=18333},
+	imaps=s:new{"imaps",proto={"tcp"},port=993},
+	smtpsubmission=s:new{"smtpsubmission",proto={"tcp"},port=587},
 }
