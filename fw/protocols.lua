@@ -21,4 +21,5 @@ return {
 	bitcointest=s:new{"bitcointest",proto={"tcp"},port=18333},
 	imaps=s:new{"imaps",proto={"tcp"},port=993},
 	smtpsubmission=s:new{"smtpsubmission",proto={"tcp"},port=587},
+	nrpe=s:new{"nrpe",proto={"tcp"},port=5666},
 }
