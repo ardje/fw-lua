@@ -45,6 +45,9 @@ end
 function M:asAddress()
 	return self.ip
 end
+function M:asAddress6()
+	return self.ipv6
+end
 function M:asIP()
 	return pip:asIPList(self.ip)
 end

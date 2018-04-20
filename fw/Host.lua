@@ -28,6 +28,9 @@ end
 function M:asAddress()
 	return { self.ip }
 end
+function M:asAddress6()
+	return { self.ipv6 }
+end
 function M:dnatTo(r)
 	local dest=r[1] or r.dest
 	local service=r[2] or r.service
