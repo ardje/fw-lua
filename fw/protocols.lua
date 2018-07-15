@@ -23,4 +23,6 @@ return {
 	imaps=s:new{"imaps",proto={"tcp"},port=993},
 	smtpsubmission=s:new{"smtpsubmission",proto={"tcp"},port=587},
 	nrpe=s:new{"nrpe",proto={"tcp"},port=5666},
+	icinga=s:new{"icinga",proto={"tcp"},port=5665},
+	varnish=s:new{"varnish",proto={"tcp"},port=6081},
 }
