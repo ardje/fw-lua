@@ -26,5 +26,5 @@ return {
 	icinga=s:new{"icinga",proto={"tcp"},port=5665},
 	varnish=s:new{"varnish",proto={"tcp"},port=6081},
 	icmp=s:new{"icmp",proto={"icmp"}},
-	icmp6=s:new{"icmp6",proto={"icmp6"}},
+	icmp6=s:new{"icmpv6",proto={"icmp6"}},
 }
