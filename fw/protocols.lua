@@ -27,4 +27,5 @@ return {
 	varnish=s:new{"varnish",proto={"tcp"},port=6081},
 	icmp=s:new{"icmp",proto={"icmp"}},
 	icmp6=s:new{"icmp6",proto={"icmpv6"}},
+	influxhttp=s:new{"influxhttp",proto="tcp",port=8086},
 }
