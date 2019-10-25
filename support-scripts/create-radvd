@@ -1,0 +1,44 @@
+#!/usr/bin/lua
+local config={}
+local f=loadfile("create-radvd.conf","t",config)
+f()
+local skipvids=assert(config.skipvids)
+local prefix=assert(config.prefix)
+local template=assert(config.template)
+local f=io.popen("/bin/ip li ls")
+local vids={}
+for l in f:lines() do
+        local ifnr,ifname=l:match("^(%d+): ([-a-z0-9]+)[@:]")
+        if ifname then
+                local vid,gw=ifname:match("^vlan([0-9]+)-(.*)")
+                if gw and skipvids[vid] == nil then vids[#vids+1]={vid=vid} end
+        end
+end
+f:close()
+table.sort(vids,function(a,b)  return tonumber(a.vid) < tonumber(b.vid) end )
+for _,vidnet in ipairs(vids) do
+	local n={}
+	vidnet.net=n
+	local f=io.popen("/bin/ip -6 a ls dev vlan"..vidnet.vid)
+	for l in f:lines() do
+		local inet6=l:match("^ +inet6 ([0-9a-f]+:[0-9a-f]+:[0-9a-f]+:[0-9a-f]+):")
+		if inet6 and inet6:match("^2") then
+			n[#n+1]=inet6	
+			--print(vidnet.vid,inet6)
+		end
+	end
+end
+
+if #arg > 0 then
+        f=io.open(arg[1],"wb")
+else
+        f=io.stdout
+end
+for _,v in ipairs(vids) do
+	local p=""
+	for _,n in ipairs(v.net) do
+		p=p..prefix:gsub("@_([A-Z]+)_@",{NET=n})
+	end
+        f:write((template:gsub("@_([A-Z]+)_@",{VID=v.vid,PREFIX=p})))
+end
+
