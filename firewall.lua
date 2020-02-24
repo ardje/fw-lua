@@ -1,3 +1,4 @@
+local posix=require"posix"
 local globals=require"process.globals"
 local log=require"fw.log"
 local sandbox=require"fw.sandbox"
