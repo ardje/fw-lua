@@ -28,4 +28,6 @@ return {
 	icmp=s:new{"icmp",proto={"icmp"}},
 	icmp6=s:new{"icmp6",proto={"icmpv6"}},
 	influxhttp=s:new{"influxhttp",proto="tcp",port=8086},
+	snmp=s:new{"snmpt",proto={"udp","tcp"},port=161},
+	snmptrap=s:new{"snmptrap",proto={"udp","tcp"},port=162},
 }
