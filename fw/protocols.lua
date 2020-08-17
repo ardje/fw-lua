@@ -30,4 +30,7 @@ return {
 	influxhttp=s:new{"influxhttp",proto="tcp",port=8086},
 	snmp=s:new{"snmpt",proto={"udp","tcp"},port=161},
 	snmptrap=s:new{"snmptrap",proto={"udp","tcp"},port=162},
+	openvpntcp=s:new{"openvpntcp",proto={"tcp"},port=1194},
+	openvpnudp=s:new{"openvpnudp",proto={"udp"},port=1194},
+	wireguard=s:new{"wireguard",proto={"udp"},port=51820},
 }
