@@ -1,0 +1,35 @@
+PublicIP=Host:new{"PublicIP",ip={"172.20.4.4/32"}}
+Internet=Net:new{"Internet",ip={},ipv6={}}
+Internet:interface("vlan50")
+
+function Internet:SNatMe(source)
+        POSTROUTING:snat{{f=1,self:asDestination(),source:asSourceIP()},PublicIP}
+end
+function Internet:rules()
+        FORWARD:addRule{f=1,table="mangle","--out-interface",{"vlan50" },"--proto","tcp","--tcp-flags","SYN,RST","SYN","--match","tcpmss","--mss","1400:65495","--jump","TCPMSS","--clamp-mss-to-pmtu"}
+        FORWARD:addRule6{f=1,table="mangle","--out-interface",{"vlan50" },"--proto","tcp","--tcp-flags","SYN,RST","SYN","--match","tcpmss","--mss","1400:65495","--jump","TCPMSS","--clamp-mss-to-pmtu"}
+	-- Allow dhcpv6 for PD
+        INPUT:allow6{"--source","fe80::/10","--destination","fe80::/10","--proto","udp","--destination-port","546"}
+end
+
+function PublicIP:Service(p)
+        local dst=p[1]
+        for n=2,#p do
+                local aservice=p[n]
+                dst:allow{aservice}
+                self:dnatTo{dst,aservice}
+--              if self.ipv6 then
+--                      self:allow6{asservice}
+--              end
+        end
+end
+function PublicIP:PortToService(p)
+	local pnr=p[1]
+	local host=p[2]
+	local dpnr=p[3]
+	for _,ip in ipairs(host:asIP()) do
+		PREROUTING:addRule{f=1,table="nat","--destination",self:asIP(),"--proto","tcp","--destination-port",pnr,"--jump","DNAT","--to",ip..":"..dpnr.port}
+	end
+end
+
+export("Internet","PublicIP")

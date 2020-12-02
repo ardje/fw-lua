@@ -1,0 +1,4 @@
+I usually put this stuf in /etc/fw/,
+
+the remainder in /opt/fw-lua/
+with a file in /etc/default/fw-lua stating that BASEDIR=/opt/fw-lua
