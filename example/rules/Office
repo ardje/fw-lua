@@ -7,6 +7,12 @@ function net:rules()
         Internet:allow{self}
         Internet:allow6{self}
 	-- You shouldn't run these on a firewall. But if you do...
+	--[[
+		f=1 means this level of an array will be flattened.
+		any array within this level will be multiplied
+		so the following rule expands to multiple iptables rules all
+		within the {...}
+	]]
 	INPUT:allow{f=1,self,{proto.dns,proto.bootps,proto.ntp,proto.syslog}}
 	INPUT:allow6{f=1,self,{proto.dns,proto.ntp}}
 end
