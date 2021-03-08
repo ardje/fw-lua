@@ -10,6 +10,11 @@ function M:allow(...)
 		self.net:allow6{f=1,self:asDestination6(),...}
 	end
 end
+function M:allow6(...)
+	if self.ipv6 ~= nil then
+		self.net:allow6{f=1,self:asDestination6(),...}
+	end
+end
 function M:asSource6()
 	return {f=1,"--source",self.ipv6}
 end
