@@ -1,0 +1,17 @@
+local firewall=Object:new("firewall")
+
+function firewall:rules()
+	--[[
+	Hack to drop mss DOS
+	]]
+        PREROUTING:addRule{f=1,table="mangle","--proto","tcp","--tcp-flags","SYN,RST","SYN","--match","tcpmss","--mss","1:500","--jump","DROP"}
+        PREROUTING:addRule6{f=1,table="mangle","--proto","tcp","--tcp-flags","SYN,RST","SYN","--match","tcpmss","--mss","1:1219","--jump","DROP"}
+        INPUT:allow{"--in-interface","lo"}
+        INPUT:allow6{"--in-interface","lo"}
+        INPUT:allow6{"--proto","icmpv6"}
+        INPUT:allow{"--proto","icmp",HostRemoteProbe}
+        INPUT:allow6{"--proto","icmp",HostRemoteProbe}
+        INPUT:allow{Office}
+        INPUT:allow6{Office}
+	INPUT:allow6{HostRemoteManagement:asSource6(),proto.ssh}
+end

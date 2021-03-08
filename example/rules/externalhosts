@@ -1,0 +1,5 @@
+HostRemoteManagement=Host:new{"HostRemoteManagement",ip={"172.16.1.1/32","172.17.2.2/32"},ipv6={"2001:2005::/48"}}
+HostRemoteProbe=Host:new{"HostRemoteProbe",ipv6={"2001:aaaa:aaaa::1/128"},ip={"172.18.3.3/32"}}
+
+-- Export all the items we defined above
+for k,v in pairs(_ENV) do export(k) end
