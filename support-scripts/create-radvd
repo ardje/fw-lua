@@ -23,7 +23,7 @@ local function readprefixes(vids,skipprefixes)
 		local f=io.popen("/bin/ip -6 a ls dev vlan"..vidnet.vid)
 		for l in f:lines() do
 			local inet6=l:match("^ +inet6 ([0-9a-f]+:[0-9a-f]+:[0-9a-f]+:[0-9a-f]+):")
-			if inet6 and inet6:match("^2") then
+			if inet6 and (inet6:match("^2") or inet6:match("^f[cd]")) then
 				for _,i in ipairs(skipprefixes) do
 					if inet6:match(i) then
 						inet6=nil
