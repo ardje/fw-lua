@@ -30,13 +30,13 @@ function M:allow(r)
 	if r.f == nil then
 		r.f=1
 	end
-	self:addRule{f=1,prio=r.prio,r, "--jump","ACCEPT"}
+	self:addRule{f=1,prio=r.prio,table=r.table,r, "--jump","ACCEPT"}
 end
 function M:allow6(r)
 	if r.f == nil then
 		r.f=1
 	end
-	self:addRule6{f=1,prio=r.prio,r, "--jump","ACCEPT"}
+	self:addRule6{f=1,prio=r.prio,table=r.table,r, "--jump","ACCEPT"}
 end
 function M:untrack(r)
 	if r.f == nil then
