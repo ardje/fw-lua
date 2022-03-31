@@ -8,3 +8,8 @@ requirements are lua-posix and lua5.2 or higher for now
 
 TODO:
 Package it as a normal package
+
+
+how to run the example:
+./testrun.lua example /tmp
+

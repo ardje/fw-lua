@@ -1,7 +1,7 @@
 Office=Net:new{"Office",ip={"10.10.10.0/24"},ipv6={PF:me(1)}}
 Office:interface("vlan1")
 
-function net:rules()
+function Office:rules()
 	self:allow6{HostRemoteManagement:asSource6()}
 	Internet:SNatMe(self)
         Internet:allow{self}
