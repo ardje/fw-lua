@@ -38,4 +38,6 @@ return {
 	vnc=s:new{"vnc",proto={"tcp"},port=5900},
 	isakmp=s:new{"isakmp",proto={"udp"},port=500},
 	ipsecnatt=s:new{"ipsecnatt",proto={"udp"},port=4500},
+	ldap=s:new{"ldap",proto={"tcp"},port=389},
+	ldaps=s:new{"ldaps",proto={"tcp"},port=636},
 }
