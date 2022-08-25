@@ -41,4 +41,5 @@ return {
 	ipsecnatt=s:new{"ipsecnatt",proto={"udp"},port=4500},
 	ldap=s:new{"ldap",proto={"tcp"},port=389},
 	ldaps=s:new{"ldaps",proto={"tcp"},port=636},
+	pveapi=s:new{"pveapi",proto={"tcp"},port=8006},
 }
