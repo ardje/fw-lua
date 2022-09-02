@@ -38,6 +38,8 @@ end
 function M:asDestination()
 	return {f=1,"--destination",self.ip}
 end
+M.asSourceIP=M.asSource
+M.asDestinationIP=M.asDestination
 function M:asIP()
 	return pip:asIPList(self.ip)
 end
