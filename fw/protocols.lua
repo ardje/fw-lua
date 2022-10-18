@@ -42,4 +42,5 @@ return {
 	ldap=s:new{"ldap",proto={"tcp"},port=389},
 	ldaps=s:new{"ldaps",proto={"tcp"},port=636},
 	pveapi=s:new{"pveapi",proto={"tcp"},port=8006},
+	radosgw=s:new{"radosgw",proto={"tcp"},port=7480},
 }
