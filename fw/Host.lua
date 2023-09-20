@@ -3,16 +3,27 @@ local M=Object:New("Host")
 local pip=require"fw.parser"
 
 function M:allow(...)
-	if self.ip ~= nil then
-		self.net:allow{f=1,self:asDestination(),...}
-	end
+	self:allow4(...)
+	self:allow6(...)
+end
+function M:drop6(...)
 	if self.ipv6 ~= nil then
-		self.net:allow6{f=1,self:asDestination6(),...}
+		self.net:drop6{f=1,self:asDestination6(),...}
 	end
 end
 function M:allow6(...)
 	if self.ipv6 ~= nil then
 		self.net:allow6{f=1,self:asDestination6(),...}
+	end
+end
+function M:drop4(...)
+	if self.ip ~= nil then
+		self.net:drop{f=1,self:asDestination(),...}
+	end
+end
+function M:allow4(...)
+	if self.ip ~= nil then
+		self.net:allow{f=1,self:asDestination(),...}
 	end
 end
 function M:asSource6()
@@ -27,6 +38,8 @@ end
 function M:asDestination()
 	return {f=1,"--destination",self.ip}
 end
+M.asSourceIP=M.asSource
+M.asDestinationIP=M.asDestination
 function M:asIP()
 	return pip:asIPList(self.ip)
 end

@@ -8,3 +8,40 @@ requirements are lua-posix and lua5.2 or higher for now
 
 TODO:
 Package it as a normal package
+
+How this works:
+Your firewall description is nothing more than a set of :rules() for a set of
+objects. :rules() are essentially a set of functions that transform into a set
+of nested arrays and command line strings.
+These nested arrays are nothing more than a complex way of writing an iptables
+command line. These nested tables are parsed by fw/expand.lua .
+Something like this:
+{"/bin/echo","hello","dave"} will turn into exactly: /bin/echo hello dave.
+But:
+{"/bin/echo","hello",{"dave","john"}} will turn into:
+/bin/echo hello dave
+/bin/echo hello john
+{"/bin/echo","hello","dave","john"} will turn into:
+/bin/echo hello dave john
+BUT:
+{"/bin/echo","hello",{f=1,"dave","john"}} will also turn into:
+/bin/echo hello dave john
+a key f in an array means flatten. It will not explode the array.
+
+Now let's see what a :rules() does:
+net:rules()
+	self:allow{proto.ssh}
+}
+turns into
+iptables --append "name ofthisnet" --destination-port 22 --jump ACCEPT
+net:rules()
+	self:allow{proto.ssh,{ net1, net2 }}
+}
+iptables --append "name ofthisnet" --destination-port 22 --in-interface net1  --jump ACCEPT
+iptables --append "name ofthisnet" --destination-port 22 --in-interface net1  --jump ACCEPT
+
+etc...
+
+But it is what it is: a big shellscript generator, and as such we can also say:
+"nah" instead of proto or whatever. And it will output nah, and iptables will complain when you run it.
+

@@ -19,7 +19,7 @@ IFSTATE="$RUN_DIR/ifstate"
 VERBOSE=no
 STARTFIREWALL=yes
 BASEDIR=/root/fw/fw-lua
-
+test -d /opt/fw-lua && BASEDIR=/opt/fw-lua
 [ -f /etc/default/firewall ] && . /etc/default/firewall
 
 case "$1" in

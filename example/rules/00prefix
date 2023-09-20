@@ -1,0 +1,17 @@
+local prefix="2001:2002:2003:45"
+PF=Net:new{"PF",ipv6={prefix.."00::/56"}}
+function PF:me(p,mask,host)
+	local id
+	if type(p)=="table" then
+		id=p.id
+		mask=p.mask
+		host=p.host
+	else
+		id=p
+	end	
+	if host==nil then host="::" end
+	if mask == nil then mask="/64" end
+	return string.format("%s%02x%s%s",prefix,id,host,mask)
+end
+
+export"PF"
