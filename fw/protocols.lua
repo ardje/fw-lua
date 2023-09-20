@@ -34,4 +34,5 @@ return {
 	openvpnudp=s:new{"openvpnudp",proto={"udp"},port=1194},
 	wireguard=s:new{"wireguard",proto={"udp"},port=51820},
 	mssql=s:new{"mssql",proto={"tcp"},port=1433},
+	babel=s:new{"babel",proto={"udp"},port=6696},
 }
