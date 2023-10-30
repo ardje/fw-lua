@@ -36,6 +36,7 @@ return {
 	wireguard=s:new{"wireguard",proto={"udp"},port=51820},
 	mssql=s:new{"mssql",proto={"tcp"},port=1433},
 	mqtt=s:new{"mqtt",proto={"tcp"},port=1883},
+	mqtts=s:new{"mqtts",proto={"tcp"},port=8883},
 	vnc=s:new{"vnc",proto={"tcp"},port=5900},
 	isakmp=s:new{"isakmp",proto={"udp"},port=500},
 	ipsecnatt=s:new{"ipsecnatt",proto={"udp"},port=4500},
