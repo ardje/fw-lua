@@ -47,4 +47,5 @@ return {
 	babel=s:new{"babel",proto={"udp"},port=6696},
 	zabbixs=s:new{"zabbixs",proto={"tcp"},port=10051},
 	zabbixp=s:new{"zabbixp",proto={"tcp"},port=10050},
+	jetdirect=s:new{"jetdirect",proto={"tcp"},port=9100},
 }
