@@ -6,6 +6,10 @@ function M:allow(...)
 	self:allow4(...)
 	self:allow6(...)
 end
+function M:drop(...)
+	self:allow4(...)
+	self:allow6(...)
+end
 function M:drop6(...)
 	if self.ipv6 ~= nil then
 		self.net:drop6{f=1,self:asDestination6(),...}
