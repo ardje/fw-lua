@@ -7,8 +7,8 @@ function M:allow(...)
 	self:allow6(...)
 end
 function M:drop(...)
-	self:allow4(...)
-	self:allow6(...)
+	self:drop4(...)
+	self:drop6(...)
 end
 function M:drop6(...)
 	if self.ipv6 ~= nil then
