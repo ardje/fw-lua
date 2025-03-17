@@ -38,7 +38,7 @@ net:rules()
 	self:allow{proto.ssh,{ net1, net2 }}
 }
 iptables --append "name ofthisnet" --destination-port 22 --in-interface net1  --jump ACCEPT
-iptables --append "name ofthisnet" --destination-port 22 --in-interface net1  --jump ACCEPT
+iptables --append "name ofthisnet" --destination-port 22 --in-interface net2  --jump ACCEPT
 
 etc...
 
