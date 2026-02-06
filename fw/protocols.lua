@@ -48,4 +48,5 @@ return {
 	zabbixs=s:new{"zabbixs",proto={"tcp"},port=10051},
 	zabbixp=s:new{"zabbixp",proto={"tcp"},port=10050},
 	jetdirect=s:new{"jetdirect",proto={"tcp"},port=9100},
+	whois=s:new{"whois",proto={"tcp"},port=43},
 }
